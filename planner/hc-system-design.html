@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>High Concurrency System Design: Complete Study Guide</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: #e0e0e0;
+            background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .section-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .section-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.9rem;
+            color: #b0b0b0;
+        }
+
+        .expand-icon {
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .section.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .section-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 1.5rem;
+        }
+
+        .section.expanded .section-content {
+            max-height: none;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .lesson {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            padding: 1.5rem;
+            border-left: 4px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .lesson:hover {
+            border-left-color: #667eea;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .lesson-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-checkbox {
+            margin-right: 1rem;
+            transform: scale(1.2);
+        }
+
+        .lesson-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #fff;
+            flex: 1;
+        }
+
+        .lesson-link {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .lesson-link:hover {
+            opacity: 1;
+        }
+
+        .lesson-content h3 {
+            color: #667eea;
+            margin: 1rem 0 0.5rem;
+            font-size: 1rem;
+        }
+
+        .lesson-content ul {
+            margin-left: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .lesson-content li {
+            margin-bottom: 0.3rem;
+            color: #d0d0d0;
+        }
+
+        .key-concepts, .takeaways, .interview-tips {
+            margin-bottom: 1rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 2rem;
+            color: #b0b0b0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .section-header {
+                padding: 1rem;
+            }
+            
+            .section-meta {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚀 High Concurrency System Design</h1>
+            <p>Complete English Study Guide - 40 Essential Lessons for System Design Mastery</p>
+        </div>
+
+        <div class="progress-section">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Progress: 0/40 lessons completed</div>
+        </div>
+
+        <!-- Section 1: Fundamentals -->
+        <div class="section" data-section="fundamentals">
+            <div class="section-header" onclick="toggleSection('fundamentals')">
+                <div>
+                    <div class="section-title">01. Fundamentals (6 lessons)</div>
+                    <div class="section-meta">
+                        <span>Design Methods • Architecture Layers • Performance • High Availability • Scalability</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">High Concurrency Systems: Universal Design Methods</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/01/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Three Core Approaches:</strong> Scale-out (horizontal scaling), Caching, and Asynchronous Processing</li>
+                            <li><strong>Scale-up vs Scale-out:</strong> Vertical scaling (better hardware) vs horizontal scaling (distributed systems)</li>
+                            <li><strong>Moore's Law Impact:</strong> Hardware performance evolution and its limitations leading to multi-core solutions</li>
+                            <li><strong>System Evolution:</strong> Gradual improvement driven by actual problems, not premature optimization</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>High concurrency design is like flood control - use expansion (scale-out), flow optimization (caching), and buffering (async)</li>
+                            <li>Start simple, then evolve architecture incrementally as traffic and requirements grow</li>
+                            <li>Scale-out introduces complexity (fault tolerance, consistency, node management) but breaks single-machine limits</li>
+                            <li>Each approach has trade-offs and should be applied based on specific system constraints and requirements</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Fundamental knowledge for system design questions</li>
+                            <li>Demonstrates understanding of scalability trade-offs</li>
+                            <li>Shows architectural evolution thinking</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Architecture Layering: Why It's Essential</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/01/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Layered Architecture Patterns:</strong> MVC, Three-tier (Presentation/Logic/Data), OSI network model</li>
+                            <li><strong>Alibaba's Enhanced Model:</strong> Terminal Display → Open API → Web → Service → Manager → DAO → External Services</li>
+                            <li><strong>Manager Layer:</strong> Handles common business operations, caching strategies, and third-party service integration</li>
+                            <li><strong>Clear Boundaries:</strong> Each layer has single responsibility with well-defined interfaces</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Layering enables specialization - different teams can focus on specific layers</li>
+                            <li>Promotes reusability - well-designed layers can be reused across projects</li>
+                            <li>Enables targeted horizontal scaling - scale specific layers based on bottlenecks</li>
+                            <li>Data flow must be adjacent-layer only to maintain architectural integrity</li>
+                            <li>Trade-off: increased complexity and potential performance overhead vs maintainability</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Shows understanding of software design principles (SRP, DRY, Open/Closed)</li>
+                            <li>Critical for designing scalable systems</li>
+                            <li>Demonstrates ability to manage complexity in large systems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Design Goal 1: How to Improve System Performance</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/01/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Three High Goals:</strong> High Performance, High Availability, High Scalability</li>
+                            <li><strong>Performance Metrics:</strong> Response time (avg, max, percentiles), throughput, concurrent users</li>
+                            <li><strong>User Experience Thresholds:</strong> <200ms (imperceptible), <1s (acceptable), >1s (noticeable delay)</li>
+                            <li><strong>Amdahl's Law:</strong> Speedup = 1/(1-p+p/s), where p is parallel portion, s is parallel processes</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Performance optimization must be problem-driven and data-supported</li>
+                            <li>Follow 80/20 rule - use 20% effort to solve 80% of performance issues</li>
+                            <li>Two optimization approaches: increase processing cores OR reduce response time</li>
+                            <li>System has performance "breaking point" - beyond which adding resources hurts performance</li>
+                            <li>CPU-intensive: optimize algorithms; I/O-intensive: optimize data access patterns</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Essential for performance optimization discussions</li>
+                            <li>Shows understanding of system bottlenecks and monitoring</li>
+                            <li>Demonstrates knowledge of parallelization limits</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Design Goal 2: High Availability Guaranteed</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/01/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Availability Levels:</strong> 99% (3.65 days/year downtime) to 99.999% (5.26 min/year downtime)</li>
+                            <li><strong>Fault Types:</strong> Hardware failures, software bugs, human errors, natural disasters</li>
+                            <li><strong>Redundancy Strategies:</strong> Hardware redundancy, service redundancy, data redundancy</li>
+                            <li><strong>Failover Mechanisms:</strong> Active-passive, active-active, circuit breakers</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>High availability requires eliminating single points of failure at every level</li>
+                            <li>Redundancy adds cost and complexity - balance based on business requirements</li>
+                            <li>Monitoring and alerting are crucial for rapid incident response</li>
+                            <li>Graceful degradation better than complete failure</li>
+                            <li>Regular disaster recovery drills ensure systems work when needed</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Critical for system reliability discussions</li>
+                            <li>Shows understanding of fault tolerance patterns</li>
+                            <li>Demonstrates risk assessment capabilities</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Design Goal 3: Scalable Architecture</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/01/05.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Scalability Dimensions:</strong> Load scalability, space scalability, geographic scalability</li>
+                            <li><strong>Horizontal vs Vertical:</strong> Add more machines vs upgrade existing machines</li>
+                            <li><strong>Stateless Design:</strong> Enable easy scaling by removing server-side session state</li>
+                            <li><strong>Partitioning Strategies:</strong> Data partitioning, functional partitioning, service partitioning</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Design for scalability from the beginning - retrofitting is expensive</li>
+                            <li>Stateless services scale more easily than stateful ones</li>
+                            <li>Partition data and functionality to enable independent scaling</li>
+                            <li>Load balancing and auto-scaling are essential scalability tools</li>
+                            <li>Monitor scaling metrics to predict when scaling is needed</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Fundamental for system design questions</li>
+                            <li>Shows ability to plan for growth</li>
+                            <li>Demonstrates understanding of architectural flexibility</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Interview Guide: System Design Fundamentals</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/01/06.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Interview Structure:</strong> Requirements gathering, capacity estimation, high-level design, detailed design</li>
+                            <li><strong>Common Patterns:</strong> Load balancing, caching, database scaling, microservices</li>
+                            <li><strong>Trade-offs:</strong> Consistency vs availability, latency vs throughput, cost vs performance</li>
+                            <li><strong>Communication Skills:</strong> Think aloud, ask clarifying questions, consider alternatives</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Start with requirements and constraints before jumping to solutions</li>
+                            <li>Estimate scale and capacity to drive design decisions</li>
+                            <li>Discuss trade-offs explicitly and justify design choices</li>
+                            <li>Consider operational concerns like monitoring, deployment, and maintenance</li>
+                            <li>Practice drawing systems clearly and explaining architecture components</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Direct preparation for system design interviews</li>
+                            <li>Framework for approaching complex technical problems</li>
+                            <li>Communication and problem-solving demonstration</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2: Database Evolution -->
+        <div class="section" data-section="database">
+            <div class="section-header" onclick="toggleSection('database')">
+                <div>
+                    <div class="section-title">02. Database Evolution (5 lessons)</div>
+                    <div class="section-meta">
+                        <span>Connection Pooling • Read Replicas • Sharding • Distributed IDs • NoSQL</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Pooling Technology: Reducing Database Connection Overhead</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/02/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Connection Pool Management:</strong> Min/max connections, connection lifecycle, timeout handling</li>
+                            <li><strong>Performance Impact:</strong> TCP handshake + MySQL auth ~4ms vs SQL execution ~1ms</li>
+                            <li><strong>Thread Pool Pattern:</strong> coreThreadCount, maxThreadCount, queue management</li>
+                            <li><strong>Pool Maintenance:</strong> Connection validation, stale connection cleanup, prewarming</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Pooling is space-for-time optimization - pre-create expensive resources</li>
+                            <li>Connection creation is 4x slower than SQL execution - pooling gives 5x performance improvement</li>
+                            <li>JDK ThreadPoolExecutor prioritizes queuing over thread creation (CPU-intensive optimization)</li>
+                            <li>Web systems need IO-optimized thread pools (like Tomcat's) that prefer creating threads</li>
+                            <li>Monitor queue depth - high backlog indicates undersized pools or performance bottlenecks</li>
+                            <li>Avoid unbounded queues - they cause memory issues and mask performance problems</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Demonstrates understanding of resource management patterns</li>
+                            <li>Shows knowledge of performance optimization techniques</li>
+                            <li>Common follow-up questions about pool sizing and configuration</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Database Optimization: Master-Slave Architecture</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/02/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Read/Write Separation:</strong> Route writes to master, reads to slaves</li>
+                            <li><strong>Replication Mechanisms:</strong> Binary log replication, statement-based vs row-based</li>
+                            <li><strong>Replication Lag:</strong> Delay between master write and slave update</li>
+                            <li><strong>Failover Strategies:</strong> Master failover, slave promotion, virtual IP switching</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Read replicas scale read performance but introduce consistency challenges</li>
+                            <li>Application must handle read-after-write scenarios carefully</li>
+                            <li>Monitor replication lag and have fallback strategies for significant delays</li>
+                            <li>Automatic failover requires careful coordination to prevent split-brain</li>
+                            <li>Consider read preference strategies: master-only for critical reads</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Common database scaling pattern</li>
+                            <li>Tests understanding of consistency vs availability trade-offs</li>
+                            <li>Demonstrates knowledge of replication mechanisms</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Database Scaling: Sharding Strategies</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/02/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Sharding Methods:</strong> Range-based, hash-based, directory-based</li>
+                            <li><strong>Shard Key Selection:</strong> Even distribution, query pattern alignment, hotspot avoidance</li>
+                            <li><strong>Cross-Shard Challenges:</strong> Transactions, joins, aggregations</li>
+                            <li><strong>Resharding:</strong> Consistent hashing, virtual shards, online migration</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Sharding breaks relational model - design application logic accordingly</li>
+                            <li>Choose shard keys carefully to balance load and support query patterns</li>
+                            <li>Avoid hotspots through proper key design and monitoring</li>
+                            <li>Plan for resharding from the beginning - it's inevitable at scale</li>
+                            <li>Cross-shard operations are expensive - minimize through design</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Critical for large-scale database design</li>
+                            <li>Tests understanding of distributed systems challenges</li>
+                            <li>Shows ability to balance trade-offs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Distributed ID Generation Strategies</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/02/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>ID Generation Methods:</strong> UUID, database sequences, Snowflake algorithm, leaf segment</li>
+                            <li><strong>Requirements:</strong> Uniqueness, ordering, performance, availability</li>
+                            <li><strong>Snowflake Format:</strong> Timestamp + machine ID + sequence number = 64-bit ID</li>
+                            <li><strong>Clock Synchronization:</strong> NTP requirements, clock drift handling</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>UUIDs provide uniqueness but lack ordering and consume more space</li>
+                            <li>Database sequences are simple but create bottlenecks at scale</li>
+                            <li>Snowflake provides ordering and high performance but requires clock synchronization</li>
+                            <li>Consider ID requirements: uniqueness, ordering, performance, security</li>
+                            <li>Plan for clock drift and machine ID conflicts in distributed systems</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Common distributed systems problem</li>
+                            <li>Tests understanding of trade-offs between different approaches</li>
+                            <li>Demonstrates knowledge of distributed system challenges</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">NoSQL Database Selection and Integration</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/02/05.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>NoSQL Types:</strong> Document (MongoDB), Key-Value (Redis), Column (Cassandra), Graph (Neo4j)</li>
+                            <li><strong>CAP Theorem:</strong> Consistency, Availability, Partition tolerance trade-offs</li>
+                            <li><strong>Use Case Matching:</strong> Document for flexibility, Key-value for performance, Column for analytics</li>
+                            <li><strong>Migration Strategies:</strong> Dual writes, change data capture, gradual cutover</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>NoSQL databases sacrifice ACID for scalability and flexibility</li>
+                            <li>Choose NoSQL type based on data structure and access patterns</li>
+                            <li>Polyglot persistence: use different databases for different purposes</li>
+                            <li>Consider operational complexity when adopting NoSQL</li>
+                            <li>Plan migration carefully to avoid data inconsistency</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Demonstrates knowledge of database ecosystem</li>
+                            <li>Shows understanding of when to use different technologies</li>
+                            <li>Tests ability to balance consistency and scalability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 3: Caching -->
+        <div class="section" data-section="caching">
+            <div class="section-header" onclick="toggleSection('caching')">
+                <div>
+                    <div class="section-title">03. Caching (6 lessons)</div>
+                    <div class="section-meta">
+                        <span>Cache Strategies • HA Caching • Cache Penetration • CDN • Data Migration</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Cache: Accelerating Dynamic Data Queries</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/03/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Cache Types:</strong> Static cache (pre-rendered pages), Distributed cache (Redis/Memcached), Local cache (in-process)</li>
+                            <li><strong>Hardware Performance:</strong> Memory ~100ns, Disk seek ~10ms (100,000x difference)</li>
+                            <li><strong>Cache Patterns:</strong> Cache-aside, write-through, write-behind, refresh-ahead</li>
+                            <li><strong>Hot Spot Handling:</strong> Local cache for extreme hot data to protect distributed cache</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Cache is any intermediate storage that reduces response time</li>
+                            <li>Memory vs disk performance difference drives caching effectiveness</li>
+                            <li>Multi-level caching: static (CDN) → local cache → distributed cache → database</li>
+                            <li>Cache works best for read-heavy workloads with hot data (80/20 rule)</li>
+                            <li>Local cache handles extreme hotspots but requires careful expiration management</li>
+                            <li>Trade-offs: performance gain vs complexity, memory usage, data consistency</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Fundamental caching concepts for system design</li>
+                            <li>Shows understanding of performance optimization strategies</li>
+                            <li>Common follow-up questions about cache patterns and consistency</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Cache High Availability: Strategies and Patterns</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/03/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Replication Strategies:</strong> Master-slave, master-master, consistent hashing</li>
+                            <li><strong>Failover Patterns:</strong> Client-side failover, proxy-based failover, Sentinel monitoring</li>
+                            <li><strong>Data Consistency:</strong> Eventual consistency, read-your-writes, monotonic reads</li>
+                            <li><strong>Split-brain Prevention:</strong> Quorum systems, witness servers, network partitioning</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Cache failures can cascade to database overload - plan redundancy carefully</li>
+                            <li>Choose consistency model based on application requirements</li>
+                            <li>Implement graceful degradation when cache is unavailable</li>
+                            <li>Monitor cache hit rates and latency to detect issues early</li>
+                            <li>Consider cache warming strategies after failures</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Tests understanding of distributed system failure modes</li>
+                            <li>Shows knowledge of high availability patterns</li>
+                            <li>Demonstrates ability to design resilient systems</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Cache Penetration, Avalanche, and Hotspot Issues</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/03/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Cache Penetration:</strong> Queries for non-existent data bypass cache, hitting database</li>
+                            <li><strong>Cache Avalanche:</strong> Multiple cache entries expire simultaneously, causing traffic spike</li>
+                            <li><strong>Cache Hotspot:</strong> Uneven data access concentrates load on specific cache nodes</li>
+                            <li><strong>Mitigation Strategies:</strong> Bloom filters, null value caching, random TTL, local cache</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Use Bloom filters to prevent penetration attacks on non-existent data</li>
+                            <li>Cache null/empty results with short TTL to reduce database hits</li>
+                            <li>Add random jitter to TTL values to prevent synchronized expiration</li>
+                            <li>Use local cache to absorb hotspot traffic before hitting distributed cache</li>
+                            <li>Monitor access patterns to detect and respond to hotspots quickly</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Common cache-related problems in high-traffic systems</li>
+                            <li>Tests problem-solving skills for distributed system issues</li>
+                            <li>Demonstrates understanding of attack vectors and defenses</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">CDN: Geographic Content Distribution</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/03/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>CDN Architecture:</strong> Edge servers, origin servers, DNS routing, geographic distribution</li>
+                            <li><strong>Content Types:</strong> Static assets, dynamic content, streaming media</li>
+                            <li><strong>Caching Strategies:</strong> TTL-based, origin validation, cache purging</li>
+                            <li><strong>Performance Benefits:</strong> Reduced latency, bandwidth savings, origin server protection</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>CDN provides geographic proximity to reduce network latency</li>
+                            <li>Effective for static content and cacheable dynamic content</li>
+                            <li>Consider cache invalidation strategy for frequently updated content</li>
+                            <li>Monitor CDN hit rates and geographic performance</li>
+                            <li>Balance cost vs performance when selecting CDN coverage</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Important for global system design questions</li>
+                            <li>Shows understanding of network optimization</li>
+                            <li>Demonstrates knowledge of content delivery strategies</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Cache Data Migration and Consistency</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/03/05.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Migration Strategies:</strong> Blue-green deployment, canary releases, gradual cutover</li>
+                            <li><strong>Consistency Patterns:</strong> Write-through, write-behind, cache-aside</li>
+                            <li><strong>Data Synchronization:</strong> Change data capture, event-driven updates, batch sync</li>
+                            <li><strong>Rollback Plans:</strong> Data backup, traffic routing, rollback procedures</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Plan cache migrations carefully to avoid data loss or inconsistency</li>
+                            <li>Use dual-write patterns during migration to maintain consistency</li>
+                            <li>Monitor data integrity throughout migration process</li>
+                            <li>Have rollback procedures ready in case of migration issues</li>
+                            <li>Consider downtime tolerance when choosing migration strategy</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Tests understanding of data migration challenges</li>
+                            <li>Shows operational thinking and risk management</li>
+                            <li>Demonstrates knowledge of consistency guarantees</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Cache Design Patterns and Best Practices</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/03/06.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Cache Patterns:</strong> Cache-aside, read-through, write-through, write-behind</li>
+                            <li><strong>Eviction Policies:</strong> LRU, LFU, FIFO, TTL-based expiration</li>
+                            <li><strong>Cache Sizing:</strong> Memory allocation, hit ratio optimization, cost considerations</li>
+                            <li><strong>Monitoring Metrics:</strong> Hit ratio, latency, throughput, error rates</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Choose cache patterns based on consistency and performance requirements</li>
+                            <li>Size cache based on working set and memory constraints</li>
+                            <li>Monitor cache performance metrics to detect issues early</li>
+                            <li>Implement proper error handling for cache failures</li>
+                            <li>Document cache behavior for team understanding</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Comprehensive understanding of caching strategies</li>
+                            <li>Shows ability to make informed design decisions</li>
+                            <li>Demonstrates operational awareness</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sections 4-7 will be added with remaining lesson content -->
+        <!-- For now, showing structure with placeholders -->
+        
+        <!-- Section 4: Message Queues -->
+        <div class="section" data-section="messagequeues">
+            <div class="section-header" onclick="toggleSection('messagequeues')">
+                <div>
+                    <div class="section-title">04. Message Queues (5 lessons)</div>
+                    <div class="section-meta">
+                        <span>Traffic Spikes • Exactly-Once Delivery • Latency Reduction • Interview Tips</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
+                    🚧 Content being processed... Check back soon!
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 5: Distributed Services -->
+        <div class="section" data-section="distributed">
+            <div class="section-header" onclick="toggleSection('distributed')">
+                <div>
+                    <div class="section-title">05. Distributed Services (9 lessons)</div>
+                    <div class="section-meta">
+                        <span>Microservices • RPC • Service Discovery • Load Balancing • API Gateway</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
+                    🚧 Content being processed... Check back soon!
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 6: Operations & Maintenance -->
+        <div class="section" data-section="operations">
+            <div class="section-header" onclick="toggleSection('operations')">
+                <div>
+                    <div class="section-title">06. Operations & Maintenance (7 lessons)</div>
+                    <div class="section-meta">
+                        <span>Monitoring • APM • Load Testing • Circuit Breakers • Rate Limiting</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
+                    🚧 Content being processed... Check back soon!
+                </p>
+            </div>
+        </div>
+
+        <!-- Section 7: Real-World Practice -->
+        <div class="section" data-section="realworld">
+            <div class="section-header" onclick="toggleSection('realworld')">
+                <div>
+                    <div class="section-title">07. Real-World Practice (4 lessons)</div>
+                    <div class="section-meta">
+                        <span>Counter Systems • Unread Counts • News Feed Architecture</span>
+                    </div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="section-content">
+                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
+                    🚧 Content being processed... Check back soon!
+                </p>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🐙 <strong>Created by Aria</strong> - AI Assistant specializing in System Design and Architecture</p>
+            <p>Original Chinese course: <a href="https://zq99299.github.io/note-architect/hc/" target="_blank" style="color: #667eea;">高并发系统设计 40 问</a></p>
+            <p>Progress automatically saved to localStorage • Mobile-optimized • Dark theme friendly</p>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.lesson-checkbox');
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const total = checkboxes.length;
+            const percentage = (completed / total) * 100;
+            
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+            
+            if (progressFill) progressFill.style.width = percentage + '%';
+            if (progressText) progressText.textContent = `Progress: ${completed}/${total} lessons completed (${Math.round(percentage)}%)`;
+            
+            // Save progress to localStorage
+            saveProgress();
+        }
+
+        // Section toggling
+        function toggleSection(sectionName) {
+            const section = document.querySelector(`[data-section="${sectionName}"]`);
+            if (section) {
+                section.classList.toggle('expanded');
+                // Save expanded state
+                saveExpandedState();
+            }
+        }
+
+        // Save progress to localStorage
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('.lesson-checkbox');
+            const progress = Array.from(checkboxes).map(cb => cb.checked);
+            localStorage.setItem('hc-study-progress', JSON.stringify(progress));
+        }
+
+        // Load progress from localStorage
+        function loadProgress() {
+            const saved = localStorage.getItem('hc-study-progress');
+            if (saved) {
+                const progress = JSON.parse(saved);
+                const checkboxes = document.querySelectorAll('.lesson-checkbox');
+                checkboxes.forEach((cb, index) => {
+                    if (progress[index]) {
+                        cb.checked = true;
+                    }
+                });
+                updateProgress();
+            }
+        }
+
+        // Save expanded sections
+        function saveExpandedState() {
+            const sections = document.querySelectorAll('.section');
+            const expanded = Array.from(sections).map(section => 
+                section.classList.contains('expanded')
+            );
+            localStorage.setItem('hc-expanded-sections', JSON.stringify(expanded));
+        }
+
+        // Load expanded sections
+        function loadExpandedState() {
+            const saved = localStorage.getItem('hc-expanded-sections');
+            if (saved) {
+                const expanded = JSON.parse(saved);
+                const sections = document.querySelectorAll('.section');
+                sections.forEach((section, index) => {
+                    if (expanded[index]) {
+                        section.classList.add('expanded');
+                    }
+                });
+            }
+        }
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProgress();
+            loadExpandedState();
+            
+            // Add click listeners to section headers
+            const headers = document.querySelectorAll('.section-header');
+            headers.forEach(header => {
+                header.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const section = this.closest('.section');
+                    if (section) {
+                        const sectionName = section.getAttribute('data-section');
+                        toggleSection(sectionName);
+                    }
+                });
+            });
+
+            // Initialize progress on first load
+            updateProgress();
+        });
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + number to toggle sections
+            if (e.altKey && e.key >= '1' && e.key <= '7') {
+                e.preventDefault();
+                const sectionNames = ['fundamentals', 'database', 'caching', 'messagequeues', 'distributed', 'operations', 'realworld'];
+                const sectionIndex = parseInt(e.key) - 1;
+                if (sectionIndex < sectionNames.length) {
+                    toggleSection(sectionNames[sectionIndex]);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
