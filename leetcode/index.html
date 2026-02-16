@@ -124,211 +124,340 @@
 
 <script>
 const PLAN = [
-  { week: 1, title: "Greedy + Sliding Window + Bit", days: [
-    { day: 1, label: "Mon · Greedy Basics", problems: [
-      { name: "Jump Game", url: "https://leetcode.com/problems/jump-game/", d: "M", cat: "Greedy" },
-      { name: "Jump Game II", url: "https://leetcode.com/problems/jump-game-ii/", d: "M", cat: "Greedy" },
-      { name: "Gas Station", url: "https://leetcode.com/problems/gas-station/", d: "M", cat: "Greedy" },
-      { name: "Maximum Subarray", url: "https://leetcode.com/problems/maximum-subarray/", d: "M", cat: "Greedy" },
-      { name: "Hand of Straights", url: "https://leetcode.com/problems/hand-of-straights/", d: "M", cat: "Greedy" }
-    ]},
-    { day: 2, label: "Tue · More Greedy", problems: [
-      { name: "Merge Triplets to Form Target", url: "https://leetcode.com/problems/merge-triplets-to-form-target-triplet/", d: "M", cat: "Greedy" },
-      { name: "Partition Labels", url: "https://leetcode.com/problems/partition-labels/", d: "M", cat: "Greedy" },
-      { name: "Valid Parenthesis String", url: "https://leetcode.com/problems/valid-parenthesis-string/", d: "M", cat: "Greedy" },
-      { name: "Task Scheduler", url: "https://leetcode.com/problems/task-scheduler/", d: "M", cat: "Greedy" },
-      { name: "Candy", url: "https://leetcode.com/problems/candy/", d: "H", cat: "Greedy" }
-    ]},
-    { day: 3, label: "Wed · Sliding Window", problems: [
-      { name: "Minimum Window Substring", url: "https://leetcode.com/problems/minimum-window-substring/", d: "H", cat: "Sliding Window" },
-      { name: "Sliding Window Maximum", url: "https://leetcode.com/problems/sliding-window-maximum/", d: "H", cat: "Sliding Window" },
-      { name: "Permutation in String", url: "https://leetcode.com/problems/permutation-in-string/", d: "M", cat: "Sliding Window" },
-      { name: "Fruit Into Baskets", url: "https://leetcode.com/problems/fruit-into-baskets/", d: "M", cat: "Sliding Window" },
-      { name: "Minimum Size Subarray Sum", url: "https://leetcode.com/problems/minimum-size-subarray-sum/", d: "M", cat: "Sliding Window" }
-    ]},
-    { day: 4, label: "Thu · Bit Manipulation", problems: [
-      { name: "Single Number", url: "https://leetcode.com/problems/single-number/", d: "E", cat: "Bit" },
-      { name: "Number of 1 Bits", url: "https://leetcode.com/problems/number-of-1-bits/", d: "E", cat: "Bit" },
-      { name: "Counting Bits", url: "https://leetcode.com/problems/counting-bits/", d: "E", cat: "Bit" },
-      { name: "Reverse Bits", url: "https://leetcode.com/problems/reverse-bits/", d: "E", cat: "Bit" },
-      { name: "Missing Number", url: "https://leetcode.com/problems/missing-number/", d: "E", cat: "Bit" }
-    ]},
-    { day: 5, label: "Fri · Bit + Greedy Mix", problems: [
-      { name: "Sum of Two Integers", url: "https://leetcode.com/problems/sum-of-two-integers/", d: "M", cat: "Bit" },
-      { name: "Reverse Integer", url: "https://leetcode.com/problems/reverse-integer/", d: "M", cat: "Bit" },
-      { name: "Subsets", url: "https://leetcode.com/problems/subsets/", d: "M", cat: "Backtracking" },
-      { name: "Non-overlapping Intervals", url: "https://leetcode.com/problems/non-overlapping-intervals/", d: "M", cat: "Greedy" },
-      { name: "Min Arrows to Burst Balloons", url: "https://leetcode.com/problems/minimum-number-of-arrows-to-burst-balloons/", d: "M", cat: "Greedy" }
-    ]},
-    { day: 6, label: "Sat · Sliding Window II", problems: [
-      { name: "Max Points from Cards", url: "https://leetcode.com/problems/maximum-points-you-can-obtain-from-cards/", d: "M", cat: "Sliding Window" },
-      { name: "Grumpy Bookstore Owner", url: "https://leetcode.com/problems/grumpy-bookstore-owner/", d: "M", cat: "Sliding Window" },
-      { name: "Frequency of Most Frequent Element", url: "https://leetcode.com/problems/frequency-of-the-most-frequent-element/", d: "M", cat: "Sliding Window" },
-      { name: "Longest Turbulent Subarray", url: "https://leetcode.com/problems/longest-turbulent-subarray/", d: "M", cat: "Sliding Window" },
-      { name: "Max Vowels in Substring", url: "https://leetcode.com/problems/maximum-number-of-vowels-in-a-substring-of-given-length/", d: "M", cat: "Sliding Window" }
-    ]},
-    { day: 7, label: "Sun · Greedy Hards", problems: [
-      { name: "IPO", url: "https://leetcode.com/problems/ipo/", d: "H", cat: "Greedy" },
-      { name: "Queue Reconstruction by Height", url: "https://leetcode.com/problems/queue-reconstruction-by-height/", d: "M", cat: "Greedy" },
-      { name: "Boats to Save People", url: "https://leetcode.com/problems/boats-to-save-people/", d: "M", cat: "Greedy" },
-      { name: "Reorganize String", url: "https://leetcode.com/problems/reorganize-string/", d: "M", cat: "Greedy" },
-      { name: "Longest Happy String", url: "https://leetcode.com/problems/longest-happy-string/", d: "M", cat: "Greedy" }
-    ]}
-  ]},
-  { week: 2, title: "DP Hards + Trie", days: [
-    { day: 8, label: "Mon · Knapsack DP", problems: [
-      { name: "Coin Change II", url: "https://leetcode.com/problems/coin-change-ii/", d: "M", cat: "DP" },
-      { name: "Target Sum", url: "https://leetcode.com/problems/target-sum/", d: "M", cat: "DP" },
-      { name: "Ones and Zeroes", url: "https://leetcode.com/problems/ones-and-zeroes/", d: "M", cat: "DP" },
-      { name: "Partition Equal Subset Sum", url: "https://leetcode.com/problems/partition-equal-subset-sum/", d: "M", cat: "DP" },
-      { name: "Last Stone Weight II", url: "https://leetcode.com/problems/last-stone-weight-ii/", d: "M", cat: "DP" }
-    ]},
-    { day: 9, label: "Tue · Subsequence DP", problems: [
-      { name: "Longest Increasing Subsequence", url: "https://leetcode.com/problems/longest-increasing-subsequence/", d: "M", cat: "DP" },
-      { name: "Russian Doll Envelopes", url: "https://leetcode.com/problems/russian-doll-envelopes/", d: "H", cat: "DP" },
-      { name: "Number of LIS", url: "https://leetcode.com/problems/number-of-longest-increasing-subsequence/", d: "M", cat: "DP" },
-      { name: "Longest Common Subsequence", url: "https://leetcode.com/problems/longest-common-subsequence/", d: "M", cat: "DP" },
-      { name: "Edit Distance", url: "https://leetcode.com/problems/edit-distance/", d: "M", cat: "DP" }
-    ]},
-    { day: 10, label: "Wed · String DP Hards", problems: [
-      { name: "Distinct Subsequences", url: "https://leetcode.com/problems/distinct-subsequences/", d: "H", cat: "DP" },
-      { name: "Interleaving String", url: "https://leetcode.com/problems/interleaving-string/", d: "M", cat: "DP" },
-      { name: "Longest Palindromic Subsequence", url: "https://leetcode.com/problems/longest-palindromic-subsequence/", d: "M", cat: "DP" },
-      { name: "Min Insertions for Palindrome", url: "https://leetcode.com/problems/minimum-insertion-steps-to-make-a-string-palindrome/", d: "H", cat: "DP" },
-      { name: "Palindrome Partitioning II", url: "https://leetcode.com/problems/palindrome-partitioning-ii/", d: "H", cat: "DP" }
-    ]},
-    { day: 11, label: "Thu · DP Boss Level", problems: [
-      { name: "Burst Balloons", url: "https://leetcode.com/problems/burst-balloons/", d: "H", cat: "DP" },
-      { name: "Regular Expression Matching", url: "https://leetcode.com/problems/regular-expression-matching/", d: "H", cat: "DP" },
-      { name: "Wildcard Matching", url: "https://leetcode.com/problems/wildcard-matching/", d: "H", cat: "DP" },
-      { name: "Stone Game", url: "https://leetcode.com/problems/stone-game/", d: "M", cat: "DP" },
-      { name: "Stone Game II", url: "https://leetcode.com/problems/stone-game-ii/", d: "M", cat: "DP" }
-    ]},
-    { day: 12, label: "Fri · Trie", problems: [
-      { name: "Implement Trie", url: "https://leetcode.com/problems/implement-trie-prefix-tree/", d: "M", cat: "Trie" },
-      { name: "Add and Search Words", url: "https://leetcode.com/problems/design-add-and-search-words-data-structure/", d: "M", cat: "Trie" },
-      { name: "Word Search II", url: "https://leetcode.com/problems/word-search-ii/", d: "H", cat: "Trie" },
-      { name: "Replace Words", url: "https://leetcode.com/problems/replace-words/", d: "M", cat: "Trie" },
-      { name: "Map Sum Pairs", url: "https://leetcode.com/problems/map-sum-pairs/", d: "M", cat: "Trie" }
-    ]},
-    { day: 13, label: "Sat · Word Break + DP", problems: [
-      { name: "Word Break", url: "https://leetcode.com/problems/word-break/", d: "M", cat: "DP" },
-      { name: "Word Break II", url: "https://leetcode.com/problems/word-break-ii/", d: "H", cat: "DP" },
-      { name: "Decode Ways", url: "https://leetcode.com/problems/decode-ways/", d: "M", cat: "DP" },
-      { name: "Decode Ways II", url: "https://leetcode.com/problems/decode-ways-ii/", d: "H", cat: "DP" },
-      { name: "Scramble String", url: "https://leetcode.com/problems/scramble-string/", d: "H", cat: "DP" }
-    ]},
-    { day: 14, label: "Sun · Stock DP Series", problems: [
-      { name: "Buy & Sell Stock III", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/", d: "H", cat: "DP" },
-      { name: "Buy & Sell Stock IV", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/", d: "H", cat: "DP" },
-      { name: "Stock with Cooldown", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/", d: "M", cat: "DP" },
-      { name: "Stock with Transaction Fee", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/", d: "M", cat: "DP" },
-      { name: "Paint House", url: "https://leetcode.com/problems/paint-house/", d: "M", cat: "DP" }
-    ]}
-  ]},
-  { week: 3, title: "Graphs + Topo Sort + Union Find", days: [
-    { day: 15, label: "Mon · Topological Sort", problems: [
-      { name: "Course Schedule II", url: "https://leetcode.com/problems/course-schedule-ii/", d: "M", cat: "Topo Sort" },
-      { name: "Alien Dictionary", url: "https://leetcode.com/problems/alien-dictionary/", d: "H", cat: "Topo Sort" },
-      { name: "Minimum Height Trees", url: "https://leetcode.com/problems/minimum-height-trees/", d: "M", cat: "Topo Sort" },
-      { name: "Sequence Reconstruction", url: "https://leetcode.com/problems/sequence-reconstruction/", d: "M", cat: "Topo Sort" },
-      { name: "Sort Items by Groups", url: "https://leetcode.com/problems/sort-items-by-groups-respecting-dependencies/", d: "H", cat: "Topo Sort" }
-    ]},
-    { day: 16, label: "Tue · Shortest Path", problems: [
-      { name: "Network Delay Time", url: "https://leetcode.com/problems/network-delay-time/", d: "M", cat: "Shortest Path" },
-      { name: "Cheapest Flights K Stops", url: "https://leetcode.com/problems/cheapest-flights-within-k-stops/", d: "M", cat: "Shortest Path" },
-      { name: "Path with Max Probability", url: "https://leetcode.com/problems/path-with-maximum-probability/", d: "M", cat: "Shortest Path" },
-      { name: "Swim in Rising Water", url: "https://leetcode.com/problems/swim-in-rising-water/", d: "H", cat: "Shortest Path" },
-      { name: "Path with Minimum Effort", url: "https://leetcode.com/problems/path-with-minimum-effort/", d: "M", cat: "Shortest Path" }
-    ]},
-    { day: 17, label: "Wed · Union Find + MST", problems: [
-      { name: "Min Cost to Connect Points", url: "https://leetcode.com/problems/min-cost-to-connect-all-points/", d: "M", cat: "MST" },
-      { name: "Connecting Cities Min Cost", url: "https://leetcode.com/problems/connecting-cities-with-minimum-cost/", d: "M", cat: "MST" },
-      { name: "Make Network Connected", url: "https://leetcode.com/problems/number-of-operations-to-make-network-connected/", d: "M", cat: "Union Find" },
-      { name: "Accounts Merge", url: "https://leetcode.com/problems/accounts-merge/", d: "M", cat: "Union Find" },
-      { name: "Redundant Connection", url: "https://leetcode.com/problems/redundant-connection/", d: "M", cat: "Union Find" }
-    ]},
-    { day: 18, label: "Thu · Union Find Hards", problems: [
-      { name: "Number of Islands II", url: "https://leetcode.com/problems/number-of-islands-ii/", d: "H", cat: "Union Find" },
-      { name: "Graph Valid Tree", url: "https://leetcode.com/problems/graph-valid-tree/", d: "M", cat: "Union Find" },
-      { name: "Earliest Moment Everyone Friends", url: "https://leetcode.com/problems/the-earliest-moment-when-everyone-become-friends/", d: "M", cat: "Union Find" },
-      { name: "Regions Cut By Slashes", url: "https://leetcode.com/problems/regions-cut-by-slashes/", d: "M", cat: "Union Find" },
-      { name: "Making A Large Island", url: "https://leetcode.com/problems/making-a-large-island/", d: "H", cat: "Union Find" }
-    ]},
-    { day: 19, label: "Fri · BFS Hards", problems: [
-      { name: "Word Ladder", url: "https://leetcode.com/problems/word-ladder/", d: "H", cat: "BFS" },
-      { name: "Word Ladder II", url: "https://leetcode.com/problems/word-ladder-ii/", d: "H", cat: "BFS" },
-      { name: "Bus Routes", url: "https://leetcode.com/problems/bus-routes/", d: "H", cat: "BFS" },
-      { name: "Open the Lock", url: "https://leetcode.com/problems/open-the-lock/", d: "M", cat: "BFS" },
-      { name: "Shortest Path in Binary Matrix", url: "https://leetcode.com/problems/shortest-path-in-binary-matrix/", d: "M", cat: "BFS" }
-    ]},
-    { day: 20, label: "Sat · Graph Theory", problems: [
-      { name: "Critical Connections", url: "https://leetcode.com/problems/critical-connections-in-a-network/", d: "H", cat: "Graph" },
-      { name: "Reconstruct Itinerary", url: "https://leetcode.com/problems/reconstruct-itinerary/", d: "H", cat: "Graph" },
-      { name: "Evaluate Division", url: "https://leetcode.com/problems/evaluate-division/", d: "M", cat: "Graph" },
-      { name: "Is Graph Bipartite", url: "https://leetcode.com/problems/is-graph-bipartite/", d: "M", cat: "Graph" },
-      { name: "Possible Bipartition", url: "https://leetcode.com/problems/possible-bipartition/", d: "M", cat: "Graph" }
-    ]},
-    { day: 21, label: "Sun · BFS/DFS Mix", problems: [
-      { name: "Shortest Path to Get All Keys", url: "https://leetcode.com/problems/shortest-path-to-get-all-keys/", d: "H", cat: "BFS" },
-      { name: "Min Moves to Move Box", url: "https://leetcode.com/problems/minimum-moves-to-move-a-box-to-their-target-location/", d: "H", cat: "BFS" },
-      { name: "Pacific Atlantic Water Flow", url: "https://leetcode.com/problems/pacific-atlantic-water-flow/", d: "M", cat: "DFS" },
-      { name: "Surrounded Regions", url: "https://leetcode.com/problems/surrounded-regions/", d: "M", cat: "DFS" },
-      { name: "Walls and Gates", url: "https://leetcode.com/problems/walls-and-gates/", d: "M", cat: "BFS" }
-    ]}
-  ]},
-  { week: 4, title: "Design + Mono Stack + Mixed Hards", days: [
-    { day: 22, label: "Mon · Design I", problems: [
-      { name: "LRU Cache", url: "https://leetcode.com/problems/lru-cache/", d: "M", cat: "Design" },
-      { name: "LFU Cache", url: "https://leetcode.com/problems/lfu-cache/", d: "H", cat: "Design" },
-      { name: "Insert Delete GetRandom O(1)", url: "https://leetcode.com/problems/insert-delete-getrandom-o1/", d: "M", cat: "Design" },
-      { name: "Design Twitter", url: "https://leetcode.com/problems/design-twitter/", d: "M", cat: "Design" },
-      { name: "Snapshot Array", url: "https://leetcode.com/problems/snapshot-array/", d: "M", cat: "Design" }
-    ]},
-    { day: 23, label: "Tue · Design II", problems: [
-      { name: "Find Median from Data Stream", url: "https://leetcode.com/problems/find-median-from-data-stream/", d: "H", cat: "Design" },
-      { name: "Design In-Memory File System", url: "https://leetcode.com/problems/design-in-memory-file-system/", d: "H", cat: "Design" },
-      { name: "Design Hit Counter", url: "https://leetcode.com/problems/design-hit-counter/", d: "M", cat: "Design" },
-      { name: "Time Based Key-Value Store", url: "https://leetcode.com/problems/time-based-key-value-store/", d: "M", cat: "Design" },
-      { name: "Design Circular Queue", url: "https://leetcode.com/problems/design-circular-queue/", d: "M", cat: "Design" }
-    ]},
-    { day: 24, label: "Wed · Monotonic Stack", problems: [
-      { name: "Daily Temperatures", url: "https://leetcode.com/problems/daily-temperatures/", d: "M", cat: "Mono Stack" },
-      { name: "Next Greater Element I", url: "https://leetcode.com/problems/next-greater-element-i/", d: "E", cat: "Mono Stack" },
-      { name: "Next Greater Element II", url: "https://leetcode.com/problems/next-greater-element-ii/", d: "M", cat: "Mono Stack" },
-      { name: "Online Stock Span", url: "https://leetcode.com/problems/online-stock-span/", d: "M", cat: "Mono Stack" },
-      { name: "Largest Rectangle in Histogram", url: "https://leetcode.com/problems/largest-rectangle-in-histogram/", d: "H", cat: "Mono Stack" }
-    ]},
-    { day: 25, label: "Thu · Mono Stack II", problems: [
-      { name: "Maximal Rectangle", url: "https://leetcode.com/problems/maximal-rectangle/", d: "H", cat: "Mono Stack" },
-      { name: "Remove K Digits", url: "https://leetcode.com/problems/remove-k-digits/", d: "M", cat: "Mono Stack" },
-      { name: "132 Pattern", url: "https://leetcode.com/problems/132-pattern/", d: "M", cat: "Mono Stack" },
-      { name: "Car Fleet", url: "https://leetcode.com/problems/car-fleet/", d: "M", cat: "Mono Stack" },
-      { name: "Sum of Subarray Minimums", url: "https://leetcode.com/problems/sum-of-subarray-minimums/", d: "M", cat: "Mono Stack" }
-    ]},
-    { day: 26, label: "Fri · Classic Hards", problems: [
-      { name: "Merge K Sorted Lists", url: "https://leetcode.com/problems/merge-k-sorted-lists/", d: "H", cat: "Heap" },
-      { name: "Serialize/Deserialize Binary Tree", url: "https://leetcode.com/problems/serialize-and-deserialize-binary-tree/", d: "H", cat: "Tree" },
-      { name: "Basic Calculator", url: "https://leetcode.com/problems/basic-calculator/", d: "H", cat: "Stack" },
-      { name: "Basic Calculator II", url: "https://leetcode.com/problems/basic-calculator-ii/", d: "M", cat: "Stack" },
-      { name: "Longest Valid Parentheses", url: "https://leetcode.com/problems/longest-valid-parentheses/", d: "H", cat: "DP" }
-    ]},
-    { day: 27, label: "Sat · Final Boss I", problems: [
-      { name: "The Skyline Problem", url: "https://leetcode.com/problems/the-skyline-problem/", d: "H", cat: "Heap" },
-      { name: "Median of Two Sorted Arrays", url: "https://leetcode.com/problems/median-of-two-sorted-arrays/", d: "H", cat: "Binary Search" },
-      { name: "Count Smaller After Self", url: "https://leetcode.com/problems/count-of-smaller-numbers-after-self/", d: "H", cat: "D&C" },
-      { name: "Reverse Nodes in k-Group", url: "https://leetcode.com/problems/reverse-nodes-in-k-group/", d: "H", cat: "Linked List" },
-      { name: "First Missing Positive", url: "https://leetcode.com/problems/first-missing-positive/", d: "H", cat: "Array" }
-    ]},
-    { day: 28, label: "Sun · Final Boss II", problems: [
-      { name: "N-Queens", url: "https://leetcode.com/problems/n-queens/", d: "H", cat: "Backtracking" },
-      { name: "Sudoku Solver", url: "https://leetcode.com/problems/sudoku-solver/", d: "H", cat: "Backtracking" },
-      { name: "Text Justification", url: "https://leetcode.com/problems/text-justification/", d: "H", cat: "String" },
-      { name: "Substring Concatenation All Words", url: "https://leetcode.com/problems/substring-with-concatenation-of-all-words/", d: "H", cat: "Sliding Window" },
-      { name: "Smallest Range from K Lists", url: "https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/", d: "H", cat: "Heap" }
-    ]}
-  ]}
+  {
+    week: 1,
+    title: "Greedy + Bit Manipulation + Segment Tree",
+    days: [
+      {
+        day: 1,
+        label: "Mon · Greedy Fundamentals",
+        problems: [
+          { name: "Task Scheduler", url: "https://leetcode.com/problems/task-scheduler/", d: "M", cat: "Greedy" },
+          { name: "Reorganize String", url: "https://leetcode.com/problems/reorganize-string/", d: "M", cat: "Greedy" },
+          { name: "Queue Reconstruction by Height", url: "https://leetcode.com/problems/queue-reconstruction-by-height/", d: "M", cat: "Greedy" },
+          { name: "Advantage Shuffle", url: "https://leetcode.com/problems/advantage-shuffle/", d: "M", cat: "Greedy" },
+          { name: "Boats to Save People", url: "https://leetcode.com/problems/boats-to-save-people/", d: "M", cat: "Greedy" }
+        ]
+      },
+      {
+        day: 2,
+        label: "Tue · Greedy Intervals",
+        problems: [
+          { name: "Minimum Number of Taps to Open to Water a Garden", url: "https://leetcode.com/problems/minimum-number-of-taps-to-open-to-water-a-garden/", d: "H", cat: "Greedy" },
+          { name: "Video Stitching", url: "https://leetcode.com/problems/video-stitching/", d: "M", cat: "Greedy" },
+          { name: "Interval List Intersections", url: "https://leetcode.com/problems/interval-list-intersections/", d: "M", cat: "Greedy" },
+          { name: "Meeting Rooms III", url: "https://leetcode.com/problems/meeting-rooms-iii/", d: "H", cat: "Greedy" },
+          { name: "Maximum Length of Pair Chain", url: "https://leetcode.com/problems/maximum-length-of-pair-chain/", d: "M", cat: "Greedy" }
+        ]
+      },
+      {
+        day: 3,
+        label: "Wed · Hard Greedy",
+        problems: [
+          { name: "Candy", url: "https://leetcode.com/problems/candy/", d: "H", cat: "Greedy" },
+          { name: "Create Maximum Number", url: "https://leetcode.com/problems/create-maximum-number/", d: "H", cat: "Greedy" },
+          { name: "IPO", url: "https://leetcode.com/problems/ipo/", d: "H", cat: "Greedy" },
+          { name: "Patching Array", url: "https://leetcode.com/problems/patching-array/", d: "H", cat: "Greedy" },
+          { name: "Minimum Number of Refueling Stops", url: "https://leetcode.com/problems/minimum-number-of-refueling-stops/", d: "H", cat: "Greedy" }
+        ]
+      },
+      {
+        day: 4,
+        label: "Thu · Bit Manipulation",
+        problems: [
+          { name: "Single Number II", url: "https://leetcode.com/problems/single-number-ii/", d: "M", cat: "Bit Manipulation" },
+          { name: "Bitwise AND of Numbers Range", url: "https://leetcode.com/problems/bitwise-and-of-numbers-range/", d: "M", cat: "Bit Manipulation" },
+          { name: "Maximum XOR of Two Numbers in an Array", url: "https://leetcode.com/problems/maximum-xor-of-two-numbers-in-an-array/", d: "M", cat: "Bit Manipulation" },
+          { name: "Counting Bits", url: "https://leetcode.com/problems/counting-bits/", d: "E", cat: "Bit Manipulation" },
+          { name: "Total Hamming Distance", url: "https://leetcode.com/problems/total-hamming-distance/", d: "M", cat: "Bit Manipulation" }
+        ]
+      },
+      {
+        day: 5,
+        label: "Fri · Bit Manipulation Hard + Segment Tree Intro",
+        problems: [
+          { name: "Minimum Number of Flips to Make the Binary String Alternating", url: "https://leetcode.com/problems/minimum-number-of-flips-to-make-the-binary-string-alternating/", d: "M", cat: "Bit Manipulation" },
+          { name: "Decode XORed Permutation", url: "https://leetcode.com/problems/decode-xored-permutation/", d: "M", cat: "Bit Manipulation" },
+          { name: "Range Sum Query - Mutable", url: "https://leetcode.com/problems/range-sum-query-mutable/", d: "M", cat: "Segment Tree" },
+          { name: "Count of Smaller Numbers After Self", url: "https://leetcode.com/problems/count-of-smaller-numbers-after-self/", d: "H", cat: "Segment Tree" },
+          { name: "Reverse Pairs", url: "https://leetcode.com/problems/reverse-pairs/", d: "H", cat: "Segment Tree" }
+        ]
+      },
+      {
+        day: 6,
+        label: "Sat · Segment Tree + BIT",
+        problems: [
+          { name: "Count of Range Sum", url: "https://leetcode.com/problems/count-of-range-sum/", d: "H", cat: "Segment Tree" },
+          { name: "My Calendar II", url: "https://leetcode.com/problems/my-calendar-ii/", d: "M", cat: "Segment Tree" },
+          { name: "My Calendar III", url: "https://leetcode.com/problems/my-calendar-iii/", d: "H", cat: "Segment Tree" },
+          { name: "Falling Squares", url: "https://leetcode.com/problems/falling-squares/", d: "H", cat: "Segment Tree" },
+          { name: "The Skyline Problem", url: "https://leetcode.com/problems/the-skyline-problem/", d: "H", cat: "Segment Tree" }
+        ]
+      },
+      {
+        day: 7,
+        label: "Sun · Greedy + Bit Mixed Review",
+        problems: [
+          { name: "Maximum Number of Events That Can Be Attended", url: "https://leetcode.com/problems/maximum-number-of-events-that-can-be-attended/", d: "M", cat: "Greedy" },
+          { name: "Minimize Maximum of Array", url: "https://leetcode.com/problems/minimize-maximum-of-array/", d: "M", cat: "Greedy" },
+          { name: "XOR Queries of a Subarray", url: "https://leetcode.com/problems/xor-queries-of-a-subarray/", d: "M", cat: "Bit Manipulation" },
+          { name: "Find the Longest Substring Containing Vowels in Even Counts", url: "https://leetcode.com/problems/find-the-longest-substring-containing-vowels-in-even-counts/", d: "M", cat: "Bit Manipulation" },
+          { name: "Course Schedule III", url: "https://leetcode.com/problems/course-schedule-iii/", d: "H", cat: "Greedy" }
+        ]
+      }
+    ]
+  },
+  {
+    week: 2,
+    title: "Hard DP + String DP + Interval DP",
+    days: [
+      {
+        day: 8,
+        label: "Mon · String DP",
+        problems: [
+          { name: "Distinct Subsequences", url: "https://leetcode.com/problems/distinct-subsequences/", d: "H", cat: "String DP" },
+          { name: "Interleaving String", url: "https://leetcode.com/problems/interleaving-string/", d: "M", cat: "String DP" },
+          { name: "Wildcard Matching", url: "https://leetcode.com/problems/wildcard-matching/", d: "H", cat: "String DP" },
+          { name: "Regular Expression Matching", url: "https://leetcode.com/problems/regular-expression-matching/", d: "H", cat: "String DP" },
+          { name: "Shortest Common Supersequence", url: "https://leetcode.com/problems/shortest-common-supersequence/", d: "H", cat: "String DP" }
+        ]
+      },
+      {
+        day: 9,
+        label: "Tue · Interval DP",
+        problems: [
+          { name: "Burst Balloons", url: "https://leetcode.com/problems/burst-balloons/", d: "H", cat: "Interval DP" },
+          { name: "Strange Printer", url: "https://leetcode.com/problems/strange-printer/", d: "H", cat: "Interval DP" },
+          { name: "Minimum Cost Tree From Leaf Values", url: "https://leetcode.com/problems/minimum-cost-tree-from-leaf-values/", d: "M", cat: "Interval DP" },
+          { name: "Predict the Winner", url: "https://leetcode.com/problems/predict-the-winner/", d: "M", cat: "Interval DP" },
+          { name: "Stone Game II", url: "https://leetcode.com/problems/stone-game-ii/", d: "M", cat: "Interval DP" }
+        ]
+      },
+      {
+        day: 10,
+        label: "Wed · Hard DP - Knapsack & Subset",
+        problems: [
+          { name: "Profitable Schemes", url: "https://leetcode.com/problems/profitable-schemes/", d: "H", cat: "DP" },
+          { name: "Ones and Zeroes", url: "https://leetcode.com/problems/ones-and-zeroes/", d: "M", cat: "DP" },
+          { name: "Last Stone Weight II", url: "https://leetcode.com/problems/last-stone-weight-ii/", d: "M", cat: "DP" },
+          { name: "Tallest Billboard", url: "https://leetcode.com/problems/tallest-billboard/", d: "H", cat: "DP" },
+          { name: "Number of Ways to Earn Points", url: "https://leetcode.com/problems/number-of-ways-to-earn-points/", d: "H", cat: "DP" }
+        ]
+      },
+      {
+        day: 11,
+        label: "Thu · Hard DP - State Machines",
+        problems: [
+          { name: "Best Time to Buy and Sell Stock III", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii/", d: "H", cat: "DP" },
+          { name: "Best Time to Buy and Sell Stock IV", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/", d: "H", cat: "DP" },
+          { name: "Best Time to Buy and Sell Stock with Cooldown", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/", d: "M", cat: "DP" },
+          { name: "Best Time to Buy and Sell Stock with Transaction Fee", url: "https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee/", d: "M", cat: "DP" },
+          { name: "Paint House II", url: "https://leetcode.com/problems/paint-house-ii/", d: "H", cat: "DP" }
+        ]
+      },
+      {
+        day: 12,
+        label: "Fri · Hard DP - Bitmask DP",
+        problems: [
+          { name: "Shortest Path Visiting All Nodes", url: "https://leetcode.com/problems/shortest-path-visiting-all-nodes/", d: "H", cat: "Bitmask DP" },
+          { name: "Parallel Courses II", url: "https://leetcode.com/problems/parallel-courses-ii/", d: "H", cat: "Bitmask DP" },
+          { name: "Find the Shortest Superstring", url: "https://leetcode.com/problems/find-the-shortest-superstring/", d: "H", cat: "Bitmask DP" },
+          { name: "Number of Ways to Wear Different Hats to Each Other", url: "https://leetcode.com/problems/number-of-ways-to-wear-different-hats-to-each-other/", d: "H", cat: "Bitmask DP" },
+          { name: "Maximum Students Taking Exam", url: "https://leetcode.com/problems/maximum-students-taking-exam/", d: "H", cat: "Bitmask DP" }
+        ]
+      },
+      {
+        day: 13,
+        label: "Sat · Hard DP - 2D Grid DP",
+        problems: [
+          { name: "Dungeon Game", url: "https://leetcode.com/problems/dungeon-game/", d: "H", cat: "DP" },
+          { name: "Cherry Pickup", url: "https://leetcode.com/problems/cherry-pickup/", d: "H", cat: "DP" },
+          { name: "Cherry Pickup II", url: "https://leetcode.com/problems/cherry-pickup-ii/", d: "H", cat: "DP" },
+          { name: "Maximal Square", url: "https://leetcode.com/problems/maximal-square/", d: "M", cat: "DP" },
+          { name: "Maximal Rectangle", url: "https://leetcode.com/problems/maximal-rectangle/", d: "H", cat: "DP" }
+        ]
+      },
+      {
+        day: 14,
+        label: "Sun · DP Review - Mixed Hard",
+        problems: [
+          { name: "Word Break II", url: "https://leetcode.com/problems/word-break-ii/", d: "H", cat: "DP" },
+          { name: "Palindrome Partitioning II", url: "https://leetcode.com/problems/palindrome-partitioning-ii/", d: "H", cat: "DP" },
+          { name: "Decode Ways", url: "https://leetcode.com/problems/decode-ways/", d: "M", cat: "DP" },
+          { name: "Decode Ways II", url: "https://leetcode.com/problems/decode-ways-ii/", d: "H", cat: "DP" },
+          { name: "Frog Jump", url: "https://leetcode.com/problems/frog-jump/", d: "H", cat: "DP" }
+        ]
+      }
+    ]
+  },
+  {
+    week: 3,
+    title: "Advanced Graphs + Topo Sort + Hard BFS/DFS",
+    days: [
+      {
+        day: 15,
+        label: "Mon · Topological Sort",
+        problems: [
+          { name: "Alien Dictionary", url: "https://leetcode.com/problems/alien-dictionary/", d: "H", cat: "Topological Sort" },
+          { name: "Sequence Reconstruction", url: "https://leetcode.com/problems/sequence-reconstruction/", d: "M", cat: "Topological Sort" },
+          { name: "Parallel Courses", url: "https://leetcode.com/problems/parallel-courses/", d: "M", cat: "Topological Sort" },
+          { name: "Sort Items by Groups Respecting Dependencies", url: "https://leetcode.com/problems/sort-items-by-groups-respecting-dependencies/", d: "H", cat: "Topological Sort" },
+          { name: "Longest Increasing Path in a Matrix", url: "https://leetcode.com/problems/longest-increasing-path-in-a-matrix/", d: "H", cat: "Topological Sort" }
+        ]
+      },
+      {
+        day: 16,
+        label: "Tue · Advanced Graph - Shortest Path",
+        problems: [
+          { name: "Swim in Rising Water", url: "https://leetcode.com/problems/swim-in-rising-water/", d: "H", cat: "Graph" },
+          { name: "Find the City With the Smallest Number of Neighbors at a Threshold Distance", url: "https://leetcode.com/problems/find-the-city-with-the-smallest-number-of-neighbors-at-a-threshold-distance/", d: "M", cat: "Graph" },
+          { name: "Path with Maximum Minimum Value", url: "https://leetcode.com/problems/path-with-maximum-minimum-value/", d: "M", cat: "Graph" },
+          { name: "Reachable Nodes In Subdivided Graph", url: "https://leetcode.com/problems/reachable-nodes-in-subdivided-graph/", d: "H", cat: "Graph" },
+          { name: "Number of Ways to Arrive at Destination", url: "https://leetcode.com/problems/number-of-ways-to-arrive-at-destination/", d: "M", cat: "Graph" }
+        ]
+      },
+      {
+        day: 17,
+        label: "Wed · Union Find + MST",
+        problems: [
+          { name: "Redundant Connection", url: "https://leetcode.com/problems/redundant-connection/", d: "M", cat: "Union Find" },
+          { name: "Redundant Connection II", url: "https://leetcode.com/problems/redundant-connection-ii/", d: "H", cat: "Union Find" },
+          { name: "Optimize Water Distribution in a Village", url: "https://leetcode.com/problems/optimize-water-distribution-in-a-village/", d: "H", cat: "Graph" },
+          { name: "Smallest String With Swaps", url: "https://leetcode.com/problems/smallest-string-with-swaps/", d: "M", cat: "Union Find" },
+          { name: "Remove Max Number of Edges to Keep Graph Fully Traversable", url: "https://leetcode.com/problems/remove-max-number-of-edges-to-keep-graph-fully-traversable/", d: "H", cat: "Union Find" }
+        ]
+      },
+      {
+        day: 18,
+        label: "Thu · Hard BFS",
+        problems: [
+          { name: "Word Ladder II", url: "https://leetcode.com/problems/word-ladder-ii/", d: "H", cat: "BFS" },
+          { name: "Bus Routes", url: "https://leetcode.com/problems/bus-routes/", d: "H", cat: "BFS" },
+          { name: "Cut Off Trees for Golf Event", url: "https://leetcode.com/problems/cut-off-trees-for-golf-event/", d: "H", cat: "BFS" },
+          { name: "Trapping Rain Water II", url: "https://leetcode.com/problems/trapping-rain-water-ii/", d: "H", cat: "BFS" },
+          { name: "Race Car", url: "https://leetcode.com/problems/race-car/", d: "H", cat: "BFS" }
+        ]
+      },
+      {
+        day: 19,
+        label: "Fri · Hard DFS + Backtracking",
+        problems: [
+          { name: "Word Search II", url: "https://leetcode.com/problems/word-search-ii/", d: "H", cat: "DFS" },
+          { name: "Expression Add Operators", url: "https://leetcode.com/problems/expression-add-operators/", d: "H", cat: "DFS" },
+          { name: "Remove Invalid Parentheses", url: "https://leetcode.com/problems/remove-invalid-parentheses/", d: "H", cat: "DFS" },
+          { name: "Stickers to Spell Word", url: "https://leetcode.com/problems/stickers-to-spell-word/", d: "H", cat: "DFS" },
+          { name: "Concatenated Words", url: "https://leetcode.com/problems/concatenated-words/", d: "H", cat: "DFS" }
+        ]
+      },
+      {
+        day: 20,
+        label: "Sat · Graph Coloring + Bipartite",
+        problems: [
+          { name: "Flower Planting With No Adjacent", url: "https://leetcode.com/problems/flower-planting-with-no-adjacent/", d: "M", cat: "Graph" },
+          { name: "Largest Color Value in a Directed Graph", url: "https://leetcode.com/problems/largest-color-value-in-a-directed-graph/", d: "H", cat: "Graph" },
+          { name: "Critical Connections in a Network", url: "https://leetcode.com/problems/critical-connections-in-a-network/", d: "H", cat: "Graph" },
+          { name: "Minimum Cost to Reach Destination in Time", url: "https://leetcode.com/problems/minimum-cost-to-reach-destination-in-time/", d: "H", cat: "Graph" },
+          { name: "Minimum Degree of a Connected Trio in a Graph", url: "https://leetcode.com/problems/minimum-degree-of-a-connected-trio-in-a-graph/", d: "H", cat: "Graph" }
+        ]
+      },
+      {
+        day: 21,
+        label: "Sun · Graph Review Mixed",
+        problems: [
+          { name: "Reconstruct Itinerary", url: "https://leetcode.com/problems/reconstruct-itinerary/", d: "H", cat: "Graph" },
+          { name: "Minimum Number of Vertices to Reach All Nodes", url: "https://leetcode.com/problems/minimum-number-of-vertices-to-reach-all-nodes/", d: "M", cat: "Graph" },
+          { name: "Graph Connectivity With Threshold", url: "https://leetcode.com/problems/graph-connectivity-with-threshold/", d: "H", cat: "Graph" },
+          { name: "Shortest Path to Get All Keys", url: "https://leetcode.com/problems/shortest-path-to-get-all-keys/", d: "H", cat: "BFS" },
+          { name: "Minimum Obstacle Removal to Reach Corner", url: "https://leetcode.com/problems/minimum-obstacle-removal-to-reach-corner/", d: "H", cat: "Graph" }
+        ]
+      }
+    ]
+  },
+  {
+    week: 4,
+    title: "Hard Design + Monotonic Stack + Mixed FAANG Hards",
+    days: [
+      {
+        day: 22,
+        label: "Mon · Hard Design",
+        problems: [
+          { name: "Design In-Memory File System", url: "https://leetcode.com/problems/design-in-memory-file-system/", d: "H", cat: "Design" },
+          { name: "All O`one Data Structure", url: "https://leetcode.com/problems/all-oone-data-structure/", d: "H", cat: "Design" },
+          { name: "Design Search Autocomplete System", url: "https://leetcode.com/problems/design-search-autocomplete-system/", d: "H", cat: "Design" },
+          { name: "Snapshot Array", url: "https://leetcode.com/problems/snapshot-array/", d: "M", cat: "Design" },
+          { name: "Design a Food Rating System", url: "https://leetcode.com/problems/design-a-food-rating-system/", d: "M", cat: "Design" }
+        ]
+      },
+      {
+        day: 23,
+        label: "Tue · More Hard Design",
+        problems: [
+          { name: "Design Skiplist", url: "https://leetcode.com/problems/design-skiplist/", d: "H", cat: "Design" },
+          { name: "Stock Price Fluctuation", url: "https://leetcode.com/problems/stock-price-fluctuation/", d: "M", cat: "Design" },
+          { name: "Maximum Frequency Stack", url: "https://leetcode.com/problems/maximum-frequency-stack/", d: "H", cat: "Design" },
+          { name: "Design a Text Editor", url: "https://leetcode.com/problems/design-a-text-editor/", d: "H", cat: "Design" },
+          { name: "Dinner Plate Stacks", url: "https://leetcode.com/problems/dinner-plate-stacks/", d: "H", cat: "Design" }
+        ]
+      },
+      {
+        day: 24,
+        label: "Wed · Monotonic Stack",
+        problems: [
+          { name: "Largest Rectangle in Histogram", url: "https://leetcode.com/problems/largest-rectangle-in-histogram/", d: "H", cat: "Monotonic Stack" },
+          { name: "Sum of Subarray Minimums", url: "https://leetcode.com/problems/sum-of-subarray-minimums/", d: "M", cat: "Monotonic Stack" },
+          { name: "Sum of Subarray Ranges", url: "https://leetcode.com/problems/sum-of-subarray-ranges/", d: "M", cat: "Monotonic Stack" },
+          { name: "Maximum Width Ramp", url: "https://leetcode.com/problems/maximum-width-ramp/", d: "M", cat: "Monotonic Stack" },
+          { name: "Odd Even Jump", url: "https://leetcode.com/problems/odd-even-jump/", d: "H", cat: "Monotonic Stack" }
+        ]
+      },
+      {
+        day: 25,
+        label: "Thu · Monotonic Stack Hard",
+        problems: [
+          { name: "Car Fleet II", url: "https://leetcode.com/problems/car-fleet-ii/", d: "H", cat: "Monotonic Stack" },
+          { name: "Maximum Score of a Good Subarray", url: "https://leetcode.com/problems/maximum-score-of-a-good-subarray/", d: "H", cat: "Monotonic Stack" },
+          { name: "Steps to Make Array Non-decreasing", url: "https://leetcode.com/problems/steps-to-make-array-non-decreasing/", d: "M", cat: "Monotonic Stack" },
+          { name: "132 Pattern", url: "https://leetcode.com/problems/132-pattern/", d: "M", cat: "Monotonic Stack" },
+          { name: "Robot Collisions", url: "https://leetcode.com/problems/robot-collisions/", d: "H", cat: "Stack" }
+        ]
+      },
+      {
+        day: 26,
+        label: "Fri · FAANG Hards - Arrays & Strings",
+        problems: [
+          { name: "First Missing Positive", url: "https://leetcode.com/problems/first-missing-positive/", d: "H", cat: "Array" },
+          { name: "Longest Valid Parentheses", url: "https://leetcode.com/problems/longest-valid-parentheses/", d: "H", cat: "String" },
+          { name: "Minimum Window Subsequence", url: "https://leetcode.com/problems/minimum-window-subsequence/", d: "H", cat: "String" },
+          { name: "Substring with Concatenation of All Words", url: "https://leetcode.com/problems/substring-with-concatenation-of-all-words/", d: "H", cat: "String" },
+          { name: "Text Justification", url: "https://leetcode.com/problems/text-justification/", d: "H", cat: "String" }
+        ]
+      },
+      {
+        day: 27,
+        label: "Sat · FAANG Hards - Trees & DP",
+        problems: [
+          { name: "Binary Tree Cameras", url: "https://leetcode.com/problems/binary-tree-cameras/", d: "H", cat: "Tree" },
+          { name: "Recover Binary Search Tree", url: "https://leetcode.com/problems/recover-binary-search-tree/", d: "M", cat: "Tree" },
+          { name: "Scramble String", url: "https://leetcode.com/problems/scramble-string/", d: "H", cat: "DP" },
+          { name: "Russian Doll Envelopes", url: "https://leetcode.com/problems/russian-doll-envelopes/", d: "H", cat: "DP" },
+          { name: "Number of Longest Increasing Subsequence", url: "https://leetcode.com/problems/number-of-longest-increasing-subsequence/", d: "M", cat: "DP" }
+        ]
+      },
+      {
+        day: 28,
+        label: "Sun · FAANG Hards - Mixed Final Boss",
+        problems: [
+          { name: "Basic Calculator", url: "https://leetcode.com/problems/basic-calculator/", d: "H", cat: "Stack" },
+          { name: "Basic Calculator II", url: "https://leetcode.com/problems/basic-calculator-ii/", d: "M", cat: "Stack" },
+          { name: "Median of a Data Stream", url: "https://leetcode.com/problems/find-median-from-data-stream/", d: "H", cat: "Design" },
+          { name: "Smallest Range Covering Elements from K Lists", url: "https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/", d: "H", cat: "Heap" },
+          { name: "Employee Free Time", url: "https://leetcode.com/problems/employee-free-time/", d: "H", cat: "Heap" }
+        ]
+      }
+    ]
+  }
 ];
+
 
 const STORE_KEY = 'aria-leetcode-done';
 let done = JSON.parse(localStorage.getItem(STORE_KEY) || '{}');
