@@ -1096,13 +1096,13 @@
                 const weekCompleted = document.querySelectorAll(`[data-week="${week}"] .task-checkbox:checked`);
                 const weekPercent = weekTasks.length > 0 ? Math.round((weekCompleted.length / weekTasks.length) * 100) : 0;
                 
-                // Update progress circle
-                const circle = document.querySelector(`[data-week="${week}"] .progress-circle`);
-                const text = circle.querySelector('.progress-text');
-                text.textContent = weekPercent + '%';
-                
-                // Update circle gradient
-                circle.style.background = `conic-gradient(from 0deg, #00bcd4 0%, #00bcd4 ${weekPercent * 3.6}deg, transparent ${weekPercent * 3.6}deg)`;
+                // Update progress circle (in header)
+                const circle = document.querySelector(`.progress-card .progress-circle[data-week="${week}"]`);
+                if (circle) {
+                    const text = circle.querySelector('.progress-text');
+                    if (text) text.textContent = weekPercent + '%';
+                    circle.style.background = `conic-gradient(from 0deg, #00bcd4 0%, #00bcd4 ${weekPercent * 3.6}deg, transparent ${weekPercent * 3.6}deg)`;
+                }
             }
         }
 
