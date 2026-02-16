@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Design Mastery Plan | Caroline's Journey</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+            color: #e0e0e0;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #64ffda, #00bcd4, #2196f3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 20px;
+        }
+
+        .progress-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .progress-card {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 25px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+
+        .progress-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #00bcd4 0%, #00bcd4 0%, transparent 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px;
+            position: relative;
+        }
+
+        .progress-circle::before {
+            content: '';
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #1a1a2e;
+            position: absolute;
+        }
+
+        .progress-text {
+            position: relative;
+            z-index: 1;
+            font-weight: bold;
+            color: #64ffda;
+        }
+
+        .week {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        .week-header {
+            background: linear-gradient(135deg, #2196f3, #00bcd4);
+            padding: 25px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .week-header:hover {
+            background: linear-gradient(135deg, #1976d2, #0097a7);
+        }
+
+        .week-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .week-subtitle {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-top: 5px;
+        }
+
+        .expand-icon {
+            font-size: 1.5rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .week-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .week.expanded .week-content {
+            max-height: 5000px;
+        }
+
+        .week.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .day-section {
+            padding: 25px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .day-section:last-child {
+            border-bottom: none;
+        }
+
+        .day-title {
+            font-size: 1.2rem;
+            color: #64ffda;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .day-icon {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .task-group {
+            margin-bottom: 25px;
+        }
+
+        .task-group h4 {
+            color: #b0b0b0;
+            margin-bottom: 10px;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .task {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .task:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .task-checkbox {
+            margin-right: 12px;
+            margin-top: 2px;
+            width: 18px;
+            height: 18px;
+            accent-color: #00bcd4;
+        }
+
+        .task-content {
+            flex: 1;
+        }
+
+        .task-text {
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .task-details {
+            font-size: 0.85rem;
+            color: #888;
+            line-height: 1.4;
+        }
+
+        .resources {
+            margin-top: 20px;
+        }
+
+        .resource-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .resource-link {
+            padding: 8px 15px;
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            border-radius: 20px;
+            text-decoration: none;
+            color: #64ffda;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+        }
+
+        .resource-link:hover {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+        }
+
+        .resource-icon {
+            margin-right: 5px;
+        }
+
+        .stats-footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #64ffda;
+            display: block;
+        }
+
+        .stat-label {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .week-header {
+                padding: 20px 15px;
+            }
+
+            .day-section {
+                padding: 20px 15px;
+            }
+
+            .resource-links {
+                justify-content: center;
+            }
+        }
+
+        .completed {
+            opacity: 0.7;
+        }
+
+        .completed .task-text {
+            text-decoration: line-through;
+            color: #888;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            background: rgba(100, 255, 218, 0.2);
+            color: #64ffda;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 10px;
+        }
+
+        .priority-high {
+            border-left: 4px solid #ff5722;
+        }
+
+        .priority-medium {
+            border-left: 4px solid #ff9800;
+        }
+
+        .priority-low {
+            border-left: 4px solid #4caf50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📐 System Design Mastery</h1>
+            <p>A 3-Week Journey from Amazon L5 to NYC Tech Senior</p>
+            <div class="progress-overview">
+                <div class="progress-card">
+                    <div class="progress-circle" data-week="1">
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h3>Week 1</h3>
+                    <p>Foundations</p>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-circle" data-week="2">
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h3>Week 2</h3>
+                    <p>Classic Problems</p>
+                </div>
+                <div class="progress-card">
+                    <div class="progress-circle" data-week="3">
+                        <span class="progress-text">0%</span>
+                    </div>
+                    <h3>Week 3</h3>
+                    <p>Advanced & Practice</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week 1: Foundations -->
+        <div class="week" data-week="1">
+            <div class="week-header" onclick="toggleWeek(1)">
+                <div>
+                    <div class="week-title">Week 1: Foundations & Core Concepts</div>
+                    <div class="week-subtitle">"Building the Foundation" • 2-3 hours per day</div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="week-content">
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">📚</span>
+                        Day 1-2: System Design Fundamentals
+                        <span class="badge">Priority</span>
+                    </div>
+                    <div class="task-group">
+                        <h4>Theory & Concepts</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Scalability principles: Horizontal vs Vertical scaling</div>
+                                <div class="task-details">Understand when to scale up vs scale out, cost implications</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Load Balancing: Round robin, weighted, consistent hashing</div>
+                                <div class="task-details">Know the algorithms and when to use each</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Caching strategies: Cache-aside, write-through, write-behind</div>
+                                <div class="task-details">Critical for performance discussions in interviews</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Database concepts: ACID, CAP theorem, eventual consistency</div>
+                                <div class="task-details">Foundation for all database-related design decisions</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Microservices vs Monoliths: When to use each</div>
+                                <div class="task-details">Relate to your Amazon experience with internal tools</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resources">
+                        <h4>Resources</h4>
+                        <div class="resource-links">
+                            <a href="#" class="resource-link"><span class="resource-icon">📖</span>Designing Data-Intensive Applications (Ch 1-2)</a>
+                            <a href="https://youtube.com/playlist?list=PLMCXHnjXnTnvo6alSjVkgxV-VH6EPyvoX" class="resource-link" target="_blank"><span class="resource-icon">🎥</span>Scalability for Dummies - Gaurav Sen</a>
+                            <a href="#" class="resource-link"><span class="resource-icon">📝</span>Practice: Draw 3-tier architecture</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🗄️</span>
+                        Day 3-4: Storage & Databases
+                    </div>
+                    <div class="task-group">
+                        <h4>Deep Dive Topics</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">SQL vs NoSQL: When to use MySQL vs MongoDB vs Cassandra</div>
+                                <div class="task-details">Practice explaining trade-offs for different use cases</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Database sharding: Consistent hashing, shard keys</div>
+                                <div class="task-details">Critical for scale discussions - relate to DynamoDB</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Replication: Master-slave, master-master</div>
+                                <div class="task-details">Understand availability vs consistency trade-offs</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Data modeling: Normalization vs denormalization</div>
+                                <div class="task-details">When to optimize for reads vs writes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Hands-on Practice</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Problem: Design a simple key-value store</div>
+                                <div class="task-details">45-minute timed practice - focus on storage and retrieval</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Problem: Design a basic chat message storage system</div>
+                                <div class="task-details">Practice schema design and query patterns</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resources">
+                        <h4>Resources</h4>
+                        <div class="resource-links">
+                            <a href="#" class="resource-link"><span class="resource-icon">📖</span>High Performance MySQL (Ch 1-3)</a>
+                            <a href="https://youtube.com/watch?v=UF9Iqmg94tk" class="resource-link" target="_blank"><span class="resource-icon">🎥</span>Database Sharding - Hussein Nasser</a>
+                            <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html" class="resource-link" target="_blank"><span class="resource-icon">🔗</span>DynamoDB Design Patterns</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🌐</span>
+                        Day 5-7: Networking & Communication
+                    </div>
+                    <div class="task-group">
+                        <h4>Key Concepts</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">API Design: REST vs GraphQL vs gRPC</div>
+                                <div class="task-details">Know when to use each and trade-offs</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Message Queues: Kafka, RabbitMQ, SQS</div>
+                                <div class="task-details">Async communication patterns - leverage your AWS experience</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Content Delivery: CDNs, edge caching</div>
+                                <div class="task-details">Global scale and performance optimization</div>
+                            </div>
+                        </div>
+                        <div class="task priority-low">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Service mesh: Basic concepts (Istio, Envoy)</div>
+                                <div class="task-details">Microservices communication and observability</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Mini Projects</h4>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Exercise: Design API endpoints for a social media app</div>
+                                <div class="task-details">Practice RESTful design and resource modeling</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Exercise: Choose message queue vs direct API calls for different scenarios</div>
+                                <div class="task-details">Decision framework for async vs sync communication</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week 2: Classic Problems -->
+        <div class="week" data-week="2">
+            <div class="week-header" onclick="toggleWeek(2)">
+                <div>
+                    <div class="week-title">Week 2: Classic System Design Problems</div>
+                    <div class="week-subtitle">"The Interview Essentials" • Master the fundamentals</div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="week-content">
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🐦</span>
+                        Day 1-2: Social Media & Content
+                        <span class="badge">Core Problems</span>
+                    </div>
+                    <div class="task-group">
+                        <h4>Problems to Master</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Twitter (start here - foundational problem)</div>
+                                <div class="task-details">Timeline generation (push vs pull), tweet storage, follower relationships, real-time updates</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Instagram</div>
+                                <div class="task-details">Photo upload/storage, feed generation, image processing pipeline</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Practice Approach (45 min per problem)</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Requirements gathering (5 min)</div>
+                                <div class="task-details">Ask clarifying questions, define scope</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Estimation (5 min)</div>
+                                <div class="task-details">Users, QPS, storage - back-of-envelope calculations</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">High-level design (15 min)</div>
+                                <div class="task-details">Draw the big picture, major components</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Detailed design (15 min)</div>
+                                <div class="task-details">Deep dive into 2-3 components</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Scale & optimize (5 min)</div>
+                                <div class="task-details">Bottlenecks, caching, monitoring</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resources">
+                        <h4>Resources</h4>
+                        <div class="resource-links">
+                            <a href="#" class="resource-link"><span class="resource-icon">📖</span>System Design Interview - Alex Xu (Ch 11-12)</a>
+                            <a href="https://youtube.com/watch?v=wYk0xPP_P_8" class="resource-link" target="_blank"><span class="resource-icon">🎥</span>Design Twitter - Exponent</a>
+                            <a href="#" class="resource-link"><span class="resource-icon">📝</span>Practice on whiteboard/iPad</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🛒</span>
+                        Day 3-4: E-commerce & Payments
+                    </div>
+                    <div class="task-group">
+                        <h4>Problems to Master</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Amazon/E-commerce platform</div>
+                                <div class="task-details">Product catalog, inventory management, order processing, search functionality</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Payment System</div>
+                                <div class="task-details">Payment processing flow, fraud detection, transaction consistency, PCI compliance</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Amazon-Specific Insights</h4>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Leverage your internal knowledge of Amazon's architecture</div>
+                                <div class="task-details">Virtual tables, internal tools - real experience advantage</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Think about how virtual tables might scale</div>
+                                <div class="task-details">Apply your backend infrastructure experience</div>
+                            </div>
+                        </div>
+                        <div class="task priority-low">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Consider Amazon's approach to eventual consistency</div>
+                                <div class="task-details">Real-world trade-offs you've seen in production</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resources">
+                        <h4>Resources</h4>
+                        <div class="resource-links">
+                            <a href="#" class="resource-link"><span class="resource-icon">📖</span>Designing Distributed Systems (Ch 8-9)</a>
+                            <a href="https://youtube.com/watch?v=olfaBgJrUBI" class="resource-link" target="_blank"><span class="resource-icon">🎥</span>Payment System Design - Gaurav Sen</a>
+                            <a href="https://stripe.com/docs/api" class="resource-link" target="_blank"><span class="resource-icon">🔗</span>Stripe API Documentation</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🔧</span>
+                        Day 5-7: Infrastructure & Tools
+                    </div>
+                    <div class="task-group">
+                        <h4>Problems to Master</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design URL Shortener (bit.ly, tinyurl)</div>
+                                <div class="task-details">Custom short URLs, analytics tracking, rate limiting, cache optimization</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Web Crawler</div>
+                                <div class="task-details">Distributed crawling, duplicate detection, rate limiting per domain, content parsing</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="resources">
+                        <h4>Resources</h4>
+                        <div class="resource-links">
+                            <a href="#" class="resource-link"><span class="resource-icon">📖</span>System Design Interview - Alex Xu (Ch 8-9)</a>
+                            <a href="https://youtube.com/watch?v=fMZMm_0ZhK4" class="resource-link" target="_blank"><span class="resource-icon">🎥</span>Design URL Shortener - Tech Dummies</a>
+                            <a href="#" class="resource-link"><span class="resource-icon">💡</span>Relate to your internal tools work</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Week 3: Advanced Topics -->
+        <div class="week" data-week="3">
+            <div class="week-header" onclick="toggleWeek(3)">
+                <div>
+                    <div class="week-title">Week 3: Advanced Topics & Mock Practice</div>
+                    <div class="week-subtitle">"Senior-Level Mastery" • Interview ready</div>
+                </div>
+                <div class="expand-icon">▼</div>
+            </div>
+            <div class="week-content">
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🚗</span>
+                        Day 1-2: Advanced Distributed Systems
+                        <span class="badge">Senior Level</span>
+                    </div>
+                    <div class="task-group">
+                        <h4>Complex Problems</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Uber/Lyft</div>
+                                <div class="task-details">Real-time location tracking, matching algorithms, ETA calculations, dynamic pricing</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Netflix</div>
+                                <div class="task-details">Video streaming, content recommendation, global CDN strategy, A/B testing platform</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Advanced Concepts</h4>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Consensus algorithms: Raft, Paxos (high-level understanding)</div>
+                                <div class="task-details">Distributed coordination and leadership election</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Event sourcing: When and how to use</div>
+                                <div class="task-details">Audit trails, replay capabilities, event-driven architectures</div>
+                            </div>
+                        </div>
+                        <div class="task priority-low">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">CQRS: Command Query Responsibility Segregation</div>
+                                <div class="task-details">Separate read/write models for complex domains</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Distributed transactions: 2PC, Saga pattern</div>
+                                <div class="task-details">Managing consistency across microservices</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">📊</span>
+                        Day 3-4: Observability & Reliability
+                    </div>
+                    <div class="task-group">
+                        <h4>System Design for Production</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Design Monitoring System (Datadog-style)</div>
+                                <div class="task-details">Metrics collection, log aggregation, alerting system, dashboard generation</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Chat System Design (Slack/Discord)</div>
+                                <div class="task-details">Real-time messaging, channel management, message history, online presence</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Production Readiness</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">SLA/SLO concepts: Availability, latency percentiles</div>
+                                <div class="task-details">Define and measure service reliability</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Circuit breaker pattern</div>
+                                <div class="task-details">Fail fast and prevent cascading failures</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Bulkhead pattern</div>
+                                <div class="task-details">Isolate critical resources and prevent resource exhaustion</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Graceful degradation</div>
+                                <div class="task-details">Maintain core functionality when dependencies fail</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="day-section">
+                    <div class="day-title">
+                        <span class="day-icon">🎯</span>
+                        Day 5-7: Mock Interviews & Polish
+                        <span class="badge">Final Prep</span>
+                    </div>
+                    <div class="task-group">
+                        <h4>Mock Practice Schedule</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Day 5: Mock #1 - Pick a random problem, time yourself (45 min)</div>
+                                <div class="task-details">Simulate real interview conditions, record yourself</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Day 6: Mock #2 - Focus on a problem you struggled with</div>
+                                <div class="task-details">Practice improvement and refinement</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Day 7: Mock #3 - New problem, simulate real interview pressure</div>
+                                <div class="task-details">Final confidence builder</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Interview Polish</h4>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Communication practice: Explain your thinking out loud</div>
+                                <div class="task-details">Practice articulating trade-offs and reasoning</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Whiteboard skills: Clean diagrams, readable text</div>
+                                <div class="task-details">Visual communication is crucial</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Question handling: Ask clarifying questions naturally</div>
+                                <div class="task-details">Show thoughtful problem-solving approach</div>
+                            </div>
+                        </div>
+                        <div class="task priority-high">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Trade-off discussions: Always discuss pros/cons</div>
+                                <div class="task-details">Demonstrate senior-level thinking</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="task-group">
+                        <h4>Final Prep Materials</h4>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Create: Your personal system design template</div>
+                                <div class="task-details">Standardized approach for all problems</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Review: Common numbers to remember (latencies, throughput)</div>
+                                <div class="task-details">Back-of-envelope calculation cheat sheet</div>
+                            </div>
+                        </div>
+                        <div class="task priority-medium">
+                            <input type="checkbox" class="task-checkbox">
+                            <div class="task-content">
+                                <div class="task-text">Prepare: Your "go-to" technologies and why you choose them</div>
+                                <div class="task-details">Consistent technology choices with clear reasoning</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-footer">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="totalTasks">0</span>
+                    <div class="stat-label">Total Tasks</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="completedTasks">0</span>
+                    <div class="stat-label">Completed</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="studyHours">15-21</span>
+                    <div class="stat-label">Study Hours</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="overallProgress">0%</span>
+                    <div class="stat-label">Overall Progress</div>
+                </div>
+            </div>
+            <p style="margin-top: 20px; color: #64ffda;">Built with 🐙 by Aria for Caroline's NYC tech journey</p>
+            <p style="color: #888; margin-top: 10px;">Remember: You're not just learning system design - you're showing your expertise!</p>
+        </div>
+    </div>
+
+    <script>
+        // Progress tracking
+        let progress = JSON.parse(localStorage.getItem('systemDesignProgress') || '{}');
+
+        function toggleWeek(weekNum) {
+            const week = document.querySelector(`[data-week="${weekNum}"]`);
+            week.classList.toggle('expanded');
+        }
+
+        function updateProgress() {
+            const allTasks = document.querySelectorAll('.task-checkbox');
+            const completedTasks = document.querySelectorAll('.task-checkbox:checked');
+            
+            // Update task counters
+            document.getElementById('totalTasks').textContent = allTasks.length;
+            document.getElementById('completedTasks').textContent = completedTasks.length;
+            
+            // Update overall progress
+            const overallPercent = Math.round((completedTasks.length / allTasks.length) * 100);
+            document.getElementById('overallProgress').textContent = overallPercent + '%';
+            
+            // Update week-specific progress
+            for (let week = 1; week <= 3; week++) {
+                const weekTasks = document.querySelectorAll(`[data-week="${week}"] .task-checkbox`);
+                const weekCompleted = document.querySelectorAll(`[data-week="${week}"] .task-checkbox:checked`);
+                const weekPercent = weekTasks.length > 0 ? Math.round((weekCompleted.length / weekTasks.length) * 100) : 0;
+                
+                // Update progress circle
+                const circle = document.querySelector(`[data-week="${week}"] .progress-circle`);
+                const text = circle.querySelector('.progress-text');
+                text.textContent = weekPercent + '%';
+                
+                // Update circle gradient
+                circle.style.background = `conic-gradient(from 0deg, #00bcd4 0%, #00bcd4 ${weekPercent * 3.6}deg, transparent ${weekPercent * 3.6}deg)`;
+            }
+        }
+
+        // Add event listeners to checkboxes
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            
+            checkboxes.forEach((checkbox, index) => {
+                // Load saved state
+                if (progress[index]) {
+                    checkbox.checked = true;
+                    checkbox.closest('.task').classList.add('completed');
+                }
+                
+                checkbox.addEventListener('change', function() {
+                    const task = this.closest('.task');
+                    if (this.checked) {
+                        task.classList.add('completed');
+                        progress[index] = true;
+                    } else {
+                        task.classList.remove('completed');
+                        delete progress[index];
+                    }
+                    
+                    // Save progress
+                    localStorage.setItem('systemDesignProgress', JSON.stringify(progress));
+                    updateProgress();
+                });
+            });
+            
+            // Initial progress update
+            updateProgress();
+            
+            // Auto-expand first week on mobile
+            if (window.innerWidth <= 768) {
+                toggleWeek(1);
+            }
+        });
+
+        // Reset progress (for testing)
+        function resetProgress() {
+            if (confirm('Are you sure you want to reset all progress?')) {
+                localStorage.removeItem('systemDesignProgress');
+                location.reload();
+            }
+        }
+
+        // Add double-tap to reset progress (hidden feature)
+        let tapCount = 0;
+        document.querySelector('.header h1').addEventListener('click', function() {
+            tapCount++;
+            setTimeout(() => tapCount = 0, 1000);
+            if (tapCount === 3) {
+                resetProgress();
+            }
+        });
+    </script>
+</body>
+</html>
