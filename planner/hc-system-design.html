@@ -827,9 +827,160 @@
                 <div class="expand-icon">▼</div>
             </div>
             <div class="section-content">
-                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
-                    🚧 Content being processed... Check back soon!
-                </p>
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Message Queues: Handling 10K+ Orders Per Second in Flash Sales</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/04/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Peak Traffic Management:</strong> Flash sales create massive, short-duration write spikes (10K+ orders/second for 10-15 seconds)</li>
+                            <li><strong>Queue as Buffer:</strong> Temporary storage container to balance speed differences between fast/slow systems (like ministers waiting at palace gates)</li>
+                            <li><strong>Three Core Functions:</strong> Peak shaving, asynchronous processing, and system decoupling</li>
+                            <li><strong>Processing Strategy:</strong> Background consumers with limited concurrency to protect downstream databases</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Peak shaving prevents database overload by queuing requests and processing at sustainable rate</li>
+                            <li>Async processing separates critical (order creation) from non-critical (coupons, points) operations</li>
+                            <li>Decoupling enables independent system evolution and fault isolation</li>
+                            <li>Flash sales benefit: user tolerance for short delays in exchange for system stability</li>
+                            <li>Capacity planning: 1000 items × 500ms processing = 500s total. With 10 consumers = 50s delay (acceptable)</li>
+                            <li>Monitor queue depth closely - high backlog indicates undersized consumers or bottlenecks</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Classic system design pattern for handling traffic spikes</li>
+                            <li>Demonstrates understanding of async processing benefits and trade-offs</li>
+                            <li>Shows capacity planning and performance estimation skills</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Message Reliability: Ensuring Exactly-Once Delivery</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/04/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Message Guarantees:</strong> At-most-once, at-least-once, exactly-once delivery semantics</li>
+                            <li><strong>Idempotency:</strong> Making operations safe to retry without side effects</li>
+                            <li><strong>Deduplication:</strong> Client-generated unique IDs and server-side duplicate detection</li>
+                            <li><strong>Transactional Outbox:</strong> Database + message queue consistency patterns</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Exactly-once delivery is hard - often implement idempotent consumers instead</li>
+                            <li>Use unique request IDs for deduplication across retries</li>
+                            <li>Implement transactional outbox pattern for database/queue consistency</li>
+                            <li>Consider compensation actions for complex distributed transactions</li>
+                            <li>Monitor duplicate message rates and processing failures</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Core distributed systems reliability concept</li>
+                            <li>Tests understanding of consistency guarantees</li>
+                            <li>Demonstrates knowledge of practical reliability patterns</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Low-Latency Messaging: Reducing Message Processing Delay</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/04/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Push vs Pull:</strong> Consumer notification strategies and their latency implications</li>
+                            <li><strong>Batching Trade-offs:</strong> Throughput vs latency when processing messages</li>
+                            <li><strong>Prefetching:</strong> Consumer-side message buffering to reduce round trips</li>
+                            <li><strong>Partitioning:</strong> Parallel processing and ordering guarantees</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Push models reduce latency but require careful backpressure handling</li>
+                            <li>Batch size affects both throughput and latency - tune based on requirements</li>
+                            <li>Prefetching improves throughput but increases memory usage</li>
+                            <li>Partitioning enables parallel processing while maintaining message ordering</li>
+                            <li>Consider queue depth, consumer count, and message processing time in latency calculations</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Shows understanding of performance optimization in messaging systems</li>
+                            <li>Demonstrates knowledge of throughput vs latency trade-offs</li>
+                            <li>Important for real-time system design questions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Message Queue Interview Tips and Best Practices</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/04/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Technology Selection:</strong> RabbitMQ vs Kafka vs RocketMQ vs Pulsar comparison</li>
+                            <li><strong>Common Patterns:</strong> Pub/Sub, work queues, request/reply, routing patterns</li>
+                            <li><strong>Operational Concerns:</strong> Monitoring, alerting, capacity planning, disaster recovery</li>
+                            <li><strong>Integration Patterns:</strong> Event sourcing, CQRS, saga patterns with messaging</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Choose message queue technology based on throughput, ordering, and durability requirements</li>
+                            <li>Design for message schema evolution and backward compatibility</li>
+                            <li>Implement proper error handling, dead letter queues, and poison message handling</li>
+                            <li>Monitor queue depth, consumer lag, processing rates, and error rates</li>
+                            <li>Consider message ordering, partitioning strategies, and consumer group management</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Comprehensive messaging system knowledge</li>
+                            <li>Technology comparison and selection criteria</li>
+                            <li>Operational maturity and system reliability focus</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Mid-Term Quiz: Message Queue Design Patterns</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/04/05.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Pattern Recognition:</strong> Identifying when to use different message queue patterns</li>
+                            <li><strong>Design Trade-offs:</strong> Consistency vs availability, throughput vs latency</li>
+                            <li><strong>Failure Scenarios:</strong> Network partitions, consumer failures, broker failures</li>
+                            <li><strong>Scaling Strategies:</strong> Horizontal scaling, partitioning, consumer group management</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Practice identifying appropriate messaging patterns for different scenarios</li>
+                            <li>Understand failure modes and recovery strategies</li>
+                            <li>Consider operational complexity when choosing messaging solutions</li>
+                            <li>Balance performance, reliability, and cost in message queue design</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Tests comprehensive understanding of message queue concepts</li>
+                            <li>Practice for system design interview scenarios</li>
+                            <li>Demonstrates ability to evaluate trade-offs and make design decisions</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -845,9 +996,286 @@
                 <div class="expand-icon">▼</div>
             </div>
             <div class="section-content">
-                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
-                    🚧 Content being processed... Check back soon!
-                </p>
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Architecture: When to Split Services (10K QPS Case Study)</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Monolith Pain Points:</strong> Database connection exhaustion, development team coordination issues, deployment complexity</li>
+                            <li><strong>Database Bottlenecks:</strong> Connection pool limits (e.g., 8000 max connections, 3400 peak usage across all services)</li>
+                            <li><strong>Team Scaling Issues:</strong> Communication cost O(n²) for n developers, code conflicts, coupled deployments</li>
+                            <li><strong>Microservice Triggers:</strong> Resource constraints, team efficiency, operational overhead - not just QPS</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>QPS alone doesn't determine when to split - focus on actual bottlenecks and team productivity</li>
+                            <li>Database connection exhaustion is a common monolith scaling limit</li>
+                            <li>Split services by business domain (user service, order service) for better resource control</li>
+                            <li>Extract common utilities (geolocation service) to avoid code duplication</li>
+                            <li>Each service gets dedicated connections, clearer ownership, faster deployment</li>
+                            <li>Team structure should match service boundaries (Conway's Law)</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Classic monolith-to-microservices evolution question</li>
+                            <li>Shows understanding of scalability bottlenecks beyond just traffic</li>
+                            <li>Demonstrates knowledge of organizational and technical factors in architecture decisions</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Microservices: Design Principles and Challenges</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Service Boundaries:</strong> Business capability alignment, single responsibility principle</li>
+                            <li><strong>Communication Patterns:</strong> Synchronous RPC, asynchronous messaging, event-driven architecture</li>
+                            <li><strong>Data Management:</strong> Database per service, eventual consistency, distributed transactions</li>
+                            <li><strong>Operational Complexity:</strong> Service discovery, configuration management, monitoring, debugging</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Design services around business capabilities, not technical layers</li>
+                            <li>Embrace decentralized data management and eventual consistency</li>
+                            <li>Implement proper service contracts and API versioning</li>
+                            <li>Invest heavily in automation: CI/CD, testing, monitoring, deployment</li>
+                            <li>Plan for distributed system failures: circuit breakers, bulkheads, timeouts</li>
+                            <li>Consider organizational impact: team structure, communication overhead</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Core microservices design principles</li>
+                            <li>Understanding of distributed system complexity</li>
+                            <li>Operational maturity and DevOps considerations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">RPC Framework: High-Performance Remote Procedure Calls</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>RPC Components:</strong> Client stub, server skeleton, serialization, network transport</li>
+                            <li><strong>Serialization:</strong> Protocol Buffers, Avro, JSON - performance vs compatibility trade-offs</li>
+                            <li><strong>Transport Protocols:</strong> HTTP/2, TCP, UDP - reliability vs performance considerations</li>
+                            <li><strong>Load Balancing:</strong> Client-side vs server-side, health checking, failover strategies</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Choose serialization format based on performance requirements and schema evolution needs</li>
+                            <li>Implement proper error handling, timeouts, and retry policies</li>
+                            <li>Design for backward compatibility in API evolution</li>
+                            <li>Consider connection pooling and multiplexing for performance</li>
+                            <li>Implement comprehensive observability: metrics, tracing, logging</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Technical deep dive into RPC implementation details</li>
+                            <li>Understanding of performance optimization techniques</li>
+                            <li>Demonstrates knowledge of distributed communication patterns</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Service Discovery: Dynamic Service Location</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Discovery Patterns:</strong> Client-side discovery, server-side discovery, service registry</li>
+                            <li><strong>Registration:</strong> Self-registration vs third-party registration</li>
+                            <li><strong>Health Checking:</strong> Active health checks, passive failure detection</li>
+                            <li><strong>Consistency Models:</strong> Strong consistency vs eventual consistency in service registries</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Service discovery is critical for dynamic service environments</li>
+                            <li>Choose consistency model based on availability requirements</li>
+                            <li>Implement robust health checking to avoid routing to failed instances</li>
+                            <li>Consider caching strategies for performance and resilience</li>
+                            <li>Plan for service registry failures and split-brain scenarios</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Essential microservices infrastructure component</li>
+                            <li>Tests understanding of distributed system coordination</li>
+                            <li>Shows knowledge of availability vs consistency trade-offs</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Distributed Tracing: Understanding Service Dependencies</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/05.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Trace Components:</strong> Spans, traces, baggage, sampling strategies</li>
+                            <li><strong>Instrumentation:</strong> Automatic vs manual instrumentation, framework integration</li>
+                            <li><strong>Sampling:</strong> Head-based sampling, tail-based sampling, adaptive sampling</li>
+                            <li><strong>Analysis:</strong> Critical path analysis, dependency mapping, performance bottlenecks</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Distributed tracing is essential for debugging microservices</li>
+                            <li>Implement consistent trace context propagation across services</li>
+                            <li>Choose sampling strategy based on traffic volume and analysis needs</li>
+                            <li>Use traces to identify performance bottlenecks and service dependencies</li>
+                            <li>Consider storage and analysis costs when designing tracing systems</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Critical observability component for distributed systems</li>
+                            <li>Shows understanding of debugging complex distributed interactions</li>
+                            <li>Demonstrates operational maturity in microservices environments</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Load Balancing: Traffic Distribution Strategies</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/06.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Load Balancing Algorithms:</strong> Round-robin, least connections, weighted, consistent hashing</li>
+                            <li><strong>Health Checking:</strong> Active probes, passive monitoring, graceful degradation</li>
+                            <li><strong>Session Affinity:</strong> Sticky sessions vs stateless design</li>
+                            <li><strong>Global Load Balancing:</strong> DNS-based, anycast, geographic routing</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Choose algorithms based on traffic patterns and server characteristics</li>
+                            <li>Implement comprehensive health checking to avoid routing failures</li>
+                            <li>Design for stateless services to simplify load balancing</li>
+                            <li>Consider connection draining during server maintenance</li>
+                            <li>Monitor load distribution and adjust algorithms as needed</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Fundamental distributed systems component</li>
+                            <li>Understanding of traffic distribution and failover strategies</li>
+                            <li>Shows knowledge of performance optimization techniques</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">API Gateway: Centralized Request Management</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/07.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Gateway Functions:</strong> Request routing, protocol translation, authentication, rate limiting</li>
+                            <li><strong>Cross-Cutting Concerns:</strong> Logging, monitoring, security, caching</li>
+                            <li><strong>Backend for Frontend:</strong> Client-specific API aggregation</li>
+                            <li><strong>Gateway Patterns:</strong> Edge gateway, internal gateway, per-team gateway</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>API Gateway centralizes cross-cutting concerns and simplifies client interactions</li>
+                            <li>Implement proper authentication, authorization, and rate limiting</li>
+                            <li>Consider request/response transformation and protocol translation</li>
+                            <li>Design for high availability - gateway is a critical path component</li>
+                            <li>Balance centralization benefits with potential bottleneck risks</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Common microservices architecture pattern</li>
+                            <li>Shows understanding of API management and security</li>
+                            <li>Demonstrates knowledge of system integration patterns</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Multi-Region Deployment: Global Service Distribution</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/08.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Deployment Patterns:</strong> Active-active, active-passive, multi-master</li>
+                            <li><strong>Data Replication:</strong> Synchronous vs asynchronous, conflict resolution</li>
+                            <li><strong>Traffic Routing:</strong> Geographic DNS, latency-based routing, failover</li>
+                            <li><strong>Consistency Challenges:</strong> CAP theorem, eventual consistency, split-brain prevention</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Multi-region deployment improves latency and availability</li>
+                            <li>Design for eventual consistency in global distributed systems</li>
+                            <li>Implement robust conflict resolution for concurrent updates</li>
+                            <li>Consider data sovereignty and compliance requirements</li>
+                            <li>Plan for region failures and cross-region failover scenarios</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Global scale system design considerations</li>
+                            <li>Understanding of distributed consistency challenges</li>
+                            <li>Shows knowledge of disaster recovery and business continuity</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Service Mesh: Infrastructure Layer for Microservices</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/05/09.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Service Mesh Architecture:</strong> Data plane (sidecar proxies), control plane (management)</li>
+                            <li><strong>Traffic Management:</strong> Load balancing, routing, fault injection, canary deployments</li>
+                            <li><strong>Security:</strong> mTLS, identity, policy enforcement</li>
+                            <li><strong>Observability:</strong> Metrics collection, distributed tracing, access logs</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Service mesh provides infrastructure-level microservices capabilities</li>
+                            <li>Separates business logic from infrastructure concerns (networking, security, observability)</li>
+                            <li>Enables consistent policies across all services</li>
+                            <li>Consider operational complexity and performance overhead</li>
+                            <li>Evaluate whether mesh benefits justify additional complexity</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Advanced microservices infrastructure pattern</li>
+                            <li>Shows understanding of separation of concerns</li>
+                            <li>Demonstrates knowledge of modern service architecture trends</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -863,9 +1291,229 @@
                 <div class="expand-icon">▼</div>
             </div>
             <div class="section-content">
-                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
-                    🚧 Content being processed... Check back soon!
-                </p>
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Monitoring: Observability in High-Traffic Systems</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Three Pillars:</strong> Metrics (quantitative data), Logs (event records), Traces (request flows)</li>
+                            <li><strong>Monitoring Layers:</strong> Infrastructure, application, business metrics</li>
+                            <li><strong>Alerting Strategies:</strong> Symptom-based vs cause-based alerts, alert fatigue prevention</li>
+                            <li><strong>SLI/SLO/SLA:</strong> Service Level Indicators, Objectives, Agreements</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Monitor what matters to users: availability, performance, correctness</li>
+                            <li>Implement multi-level monitoring: infrastructure → application → business</li>
+                            <li>Design alerts for actionable symptoms, not low-level causes</li>
+                            <li>Use SLOs to drive reliability decisions and error budgets</li>
+                            <li>Invest in dashboards that tell a story about system health</li>
+                            <li>Correlate metrics, logs, and traces for effective troubleshooting</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Essential operational maturity for production systems</li>
+                            <li>Shows understanding of reliability engineering principles</li>
+                            <li>Demonstrates data-driven approach to system health</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Application Performance Monitoring (APM)</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>APM Components:</strong> Real user monitoring (RUM), synthetic monitoring, server monitoring</li>
+                            <li><strong>Performance Metrics:</strong> Response time, throughput, error rate, resource utilization</li>
+                            <li><strong>Code Profiling:</strong> CPU profiling, memory analysis, database query optimization</li>
+                            <li><strong>User Experience:</strong> Page load times, transaction completion, error tracking</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>APM bridges infrastructure monitoring and business metrics</li>
+                            <li>Focus on user-centric metrics: page load time, transaction success rate</li>
+                            <li>Implement both proactive (synthetic) and reactive (RUM) monitoring</li>
+                            <li>Use profiling to identify performance bottlenecks in code</li>
+                            <li>Correlate performance issues with business impact</li>
+                            <li>Set up automated performance regression detection</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Shows understanding of performance optimization lifecycle</li>
+                            <li>Demonstrates user-centric system design approach</li>
+                            <li>Important for maintaining system performance at scale</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Load Testing: Validating System Performance Under Stress</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Testing Types:</strong> Load testing, stress testing, spike testing, volume testing</li>
+                            <li><strong>Performance Modeling:</strong> Baseline performance, capacity planning, scalability limits</li>
+                            <li><strong>Test Environment:</strong> Production-like data, realistic traffic patterns</li>
+                            <li><strong>Bottleneck Identification:</strong> CPU, memory, I/O, network, database constraints</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Load test early and often to prevent production surprises</li>
+                            <li>Design tests that reflect realistic user behavior patterns</li>
+                            <li>Test beyond normal capacity to find breaking points</li>
+                            <li>Use production-like data and environment characteristics</li>
+                            <li>Identify and document system bottlenecks for capacity planning</li>
+                            <li>Automate load testing as part of CI/CD pipeline</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Critical for validating scalability claims in system design</li>
+                            <li>Shows proactive approach to performance validation</li>
+                            <li>Demonstrates understanding of system limits and capacity planning</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Configuration Management: Dynamic System Behavior Control</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Configuration Types:</strong> Application config, feature flags, infrastructure settings</li>
+                            <li><strong>Dynamic Updates:</strong> Hot reloading, configuration push, polling mechanisms</li>
+                            <li><strong>Configuration Validation:</strong> Schema validation, gradual rollout, rollback capabilities</li>
+                            <li><strong>Security:</strong> Configuration encryption, access control, audit logging</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Externalize configuration to enable runtime behavior changes</li>
+                            <li>Implement configuration validation to prevent invalid settings</li>
+                            <li>Use gradual rollout for configuration changes to minimize risk</li>
+                            <li>Provide quick rollback mechanisms for problematic changes</li>
+                            <li>Secure sensitive configuration data with encryption and access controls</li>
+                            <li>Log configuration changes for audit and debugging purposes</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Shows operational sophistication in system management</li>
+                            <li>Demonstrates understanding of change management and risk mitigation</li>
+                            <li>Important for feature deployment and system tuning</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Circuit Breaker Pattern: Preventing Cascade Failures</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/05.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Circuit States:</strong> Closed (normal), Open (failing), Half-open (testing recovery)</li>
+                            <li><strong>Failure Detection:</strong> Error thresholds, timeout tracking, health indicators</li>
+                            <li><strong>Recovery Testing:</strong> Gradual traffic restoration, success rate monitoring</li>
+                            <li><strong>Fallback Strategies:</strong> Default responses, cached data, degraded functionality</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Circuit breakers prevent cascade failures in distributed systems</li>
+                            <li>Configure appropriate failure thresholds and timeout values</li>
+                            <li>Implement meaningful fallback responses for better user experience</li>
+                            <li>Monitor circuit breaker metrics: trip rate, recovery time, fallback usage</li>
+                            <li>Test circuit breaker behavior with chaos engineering</li>
+                            <li>Consider bulkhead pattern for resource isolation</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Essential resilience pattern for distributed systems</li>
+                            <li>Shows understanding of failure handling and system stability</li>
+                            <li>Demonstrates defensive programming principles</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Rate Limiting: Protecting Services from Overload</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/06.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Rate Limiting Algorithms:</strong> Token bucket, leaky bucket, fixed/sliding window</li>
+                            <li><strong>Scope and Granularity:</strong> Per-user, per-API, per-service, global limits</li>
+                            <li><strong>Implementation Layers:</strong> API gateway, application layer, infrastructure level</li>
+                            <li><strong>Response Strategies:</strong> Reject requests, queue requests, degrade functionality</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Rate limiting protects systems from abuse and overload</li>
+                            <li>Choose algorithms based on traffic patterns and business requirements</li>
+                            <li>Implement fair distribution of resources across users/services</li>
+                            <li>Provide clear error messages and retry guidance when limits exceeded</li>
+                            <li>Monitor rate limiting effectiveness and adjust limits based on usage patterns</li>
+                            <li>Consider different strategies for different types of traffic</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Important protection mechanism for public APIs</li>
+                            <li>Shows understanding of resource management and fair usage</li>
+                            <li>Demonstrates knowledge of different algorithmic approaches</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Reliability Interview Preparation</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/06/07.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>SRE Principles:</strong> Error budgets, toil reduction, blameless post-mortems</li>
+                            <li><strong>Reliability Patterns:</strong> Graceful degradation, bulkhead isolation, timeouts</li>
+                            <li><strong>Incident Response:</strong> On-call practices, escalation procedures, communication</li>
+                            <li><strong>Capacity Planning:</strong> Growth projections, resource forecasting, cost optimization</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Reliability is a feature that must be designed and measured</li>
+                            <li>Use error budgets to balance reliability with feature velocity</li>
+                            <li>Implement comprehensive incident response and learning processes</li>
+                            <li>Plan capacity based on growth patterns and business requirements</li>
+                            <li>Automate operational tasks to reduce toil and human error</li>
+                            <li>Foster a culture of reliability and continuous improvement</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Comprehensive understanding of operational excellence</li>
+                            <li>Shows maturity in running production systems at scale</li>
+                            <li>Demonstrates balance between reliability and business objectives</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -881,9 +1529,133 @@
                 <div class="expand-icon">▼</div>
             </div>
             <div class="section-content">
-                <p style="text-align: center; padding: 2rem; color: #b0b0b0;">
-                    🚧 Content being processed... Check back soon!
-                </p>
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Counter System Design: Handling Trillion-Scale Social Media Metrics</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/07/01.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Scale Challenge:</strong> Trillions of counters (likes, shares, views) across billions of posts and users</li>
+                            <li><strong>Access Patterns:</strong> Massive read traffic (millions QPS), high write concurrency on hot posts</li>
+                            <li><strong>Storage Evolution:</strong> MySQL → MySQL+Redis → Pure Redis → Custom Redis with memory optimization</li>
+                            <li><strong>Memory Optimization:</strong> Custom data structures reducing storage from 70 bytes to 12 bytes per counter</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Start simple (MySQL) and evolve architecture based on actual bottlenecks</li>
+                            <li>Pure Redis eliminates cache consistency issues but requires memory optimization</li>
+                            <li>Message queues enable batch processing: combine multiple +1 operations into single +3</li>
+                            <li>Custom storage formats: Long keys (8 bytes) vs string keys (28 bytes) - massive savings</li>
+                            <li>Hot/cold data separation: Memory for recent data, SSD for historical with async loading</li>
+                            <li>Hash-based storage with collision resolution for compact array-based storage</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Complete real-world system design case study</li>
+                            <li>Shows evolution from simple to optimized architecture</li>
+                            <li>Demonstrates memory optimization and cost management at scale</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">Unread Count System: Efficient Social Media Notification Tracking</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/07/02.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Unread Types:</strong> Messages, mentions, friend requests, activity notifications</li>
+                            <li><strong>Consistency Requirements:</strong> Strong consistency for critical notifications, eventual for less critical</li>
+                            <li><strong>Read Patterns:</strong> Frequent polling, real-time updates, batch operations</li>
+                            <li><strong>Storage Strategy:</strong> Separate storage for different unread types based on access patterns</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Different unread types have different consistency and latency requirements</li>
+                            <li>Use bitmap or compact counters for efficient unread tracking</li>
+                            <li>Implement read receipts and acknowledgment patterns carefully</li>
+                            <li>Consider push vs pull models for real-time unread updates</li>
+                            <li>Handle edge cases: offline users, bulk mark-as-read, concurrent updates</li>
+                            <li>Optimize for common operations: increment unread, batch clear, count query</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Common feature in social and messaging applications</li>
+                            <li>Tests understanding of consistency vs performance trade-offs</li>
+                            <li>Shows knowledge of real-time system design patterns</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">News Feed Architecture: Push vs Pull Models at Scale</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/07/03.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Push Model (Fan-out-on-write):</strong> Pre-compute feeds when content is published</li>
+                            <li><strong>Pull Model (Fan-out-on-read):</strong> Compute feeds dynamically when user requests</li>
+                            <li><strong>Hybrid Approach:</strong> Push for normal users, pull for celebrities, mixed strategies</li>
+                            <li><strong>Ranking Algorithms:</strong> Chronological, engagement-based, ML-powered relevance</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>Push model: faster reads, expensive writes (celebrity with millions of followers)</li>
+                            <li>Pull model: faster writes, expensive reads (aggregating from thousands of followees)</li>
+                            <li>Hybrid approach handles different user types optimally</li>
+                            <li>Cache precomputed feeds with appropriate TTL and eviction policies</li>
+                            <li>Handle real-time updates: new posts, engagement changes, relevance updates</li>
+                            <li>Consider storage costs: push model requires massive storage for precomputed feeds</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Classic system design interview question (Twitter/Facebook feed)</li>
+                            <li>Demonstrates understanding of read/write trade-offs</li>
+                            <li>Shows ability to handle different user behavior patterns</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson">
+                    <div class="lesson-header">
+                        <input type="checkbox" class="lesson-checkbox" onchange="updateProgress()">
+                        <div class="lesson-title">System Design Synthesis: Putting It All Together</div>
+                        <a href="https://zq99299.github.io/note-architect/hc/07/04.html" class="lesson-link" target="_blank">🔗 Original</a>
+                    </div>
+                    <div class="lesson-content">
+                        <h3>Key Concepts:</h3>
+                        <ul>
+                            <li><strong>Architecture Evolution:</strong> Monolith → Service-oriented → Microservices → Serverless</li>
+                            <li><strong>Technology Selection:</strong> Right tool for right job, considering team expertise and operational cost</li>
+                            <li><strong>Trade-off Analysis:</strong> Performance vs complexity, consistency vs availability, cost vs features</li>
+                            <li><strong>Future-Proofing:</strong> Extensibility, maintainability, team scalability</li>
+                        </ul>
+                        <h3>Main Takeaways:</h3>
+                        <ul>
+                            <li>System design is about making informed trade-offs, not finding perfect solutions</li>
+                            <li>Start simple and evolve based on real constraints and requirements</li>
+                            <li>Consider operational complexity and team capabilities in technology choices</li>
+                            <li>Document assumptions and decision rationale for future reference</li>
+                            <li>Plan for failure scenarios and have rollback strategies</li>
+                            <li>Balance engineering excellence with business value delivery</li>
+                        </ul>
+                        <h3>Interview Relevance:</h3>
+                        <ul>
+                            <li>Demonstrates holistic thinking about system design</li>
+                            <li>Shows maturity in balancing technical and business considerations</li>
+                            <li>Synthesis of all concepts learned throughout the course</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
 
